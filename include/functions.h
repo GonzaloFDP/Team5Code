@@ -1,5 +1,5 @@
-#include "main.h"
-#include "motorSetup.h"
+#include "../include/main.h"
+#include "../include/motorSetup.h"
 
 //okapi::Controller master;
 //Useful Constants
@@ -10,7 +10,7 @@ std::string autons[4] = {"Red1", "Red2", "Blue1", "Blue2"};
 int size = 4;//*(&autons + 1) - autons;
 
 void screenPrintString(int e, int o, std::string i){
-  master.print(e,o,i.c_str());
+  master.print(e,o,"%s",i.c_str());
 }
 
 void screenPrintInt(int e, int o, double i){

@@ -1,7 +1,5 @@
 #include "main.h"
 
-using namespace pros;
-
 
 //Ports
 #define FR_MOTOR 10
@@ -11,6 +9,8 @@ using namespace pros;
 #define RINGTAKE 7
 #define GOALCLAMP 15
 #define CONVEYOR 5
+
+const int frmotor = 10;
 
 
 const double ticksPerDeg = 900/360;
@@ -32,18 +32,19 @@ ControllerButton right(ControllerDigital::right);
 ControllerButton up(ControllerDigital::up);
 ControllerButton down(ControllerDigital::down);
 */
-/*
-pros::Controller control (E_CONTROLLER_MASTER);*/
-pros::Motor Clamp(GOALCLAMP, E_MOTOR_GEARSET_36, false);
 
-pros::Motor FLmotor(FL_MOTOR, false);
+//pros::Controller control (E_CONTROLLER_MASTER);
+pros::Motor Clamp(GOALCLAMP, pros::E_MOTOR_GEARSET_36);
+
+pros::Motor FLmotor(FL_MOTOR);
 pros::Motor FRmotor(FR_MOTOR, true);
-pros::Motor BLmotor(BL_MOTOR, false);
+pros::Motor BLmotor(BL_MOTOR);
 pros::Motor BRmotor(BR_MOTOR, true);
 
-pros::Motor Ringtake(RINGTAKE, false);
+pros::Motor Ringtake(RINGTAKE);
 
-pros::Motor Conveyor(CONVEYOR, false);
+
+pros::Motor Conveyor(CONVEYOR);
 
 /*
 pros::Motor LeftIntake(LIPort, false);
