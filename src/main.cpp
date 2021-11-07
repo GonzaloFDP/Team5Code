@@ -4,6 +4,7 @@
 
 void initialize() {
 	pros::lcd::initialize();
+	screenPrintString(3, 2, "hiho");
 
 	//pros::lcd::register_btn0_cb(leftBtn);
 	//pros::lcd::register_btn1_cb(centerBtn);
@@ -144,6 +145,8 @@ void opcontrol() {
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
 			platformMode(plt4mMode);
 		}
+
+		screenPrintInt(2, 1, plt4mMode);
 
     pros::delay(20);
   }

@@ -307,8 +307,8 @@
         },
         "upload_options": {
             "compress_bin": true,
-            "description": "dumb",
-            "remote_name": "Template-PROS",
+            "description": "pernab",
+            "remote_name": "Team5Code",
             "slot": 1
         }
     }

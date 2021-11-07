@@ -3,6 +3,13 @@
 
 #define MAXVELOCITY 100
 
+
+
+
+
+std::shared_ptr<AsyncPositionController<double,double>> goalController =
+  AsyncPosControllerBuilder().withMotor(5).build();
+
 /*
 std::shared_ptr<AsyncPositionController<double, double>> liftControl =
     AsyncPosControllerBuilder().withMotor(PBPort).build();
@@ -60,6 +67,35 @@ void Red1(){
 }
 
 void Red2(){
+  double chassiskP = 0.001;
+  double chassiskI = 0.0;
+  double chassiskD = 0.0001;
+  std::shared_ptr<ChassisController> driveAuton = ChassisControllerBuilder().withMotors(-20, 11, -10, 1)
+      .withGains({chassiskP, chassiskI, chassiskD}, {chassiskP,chassiskI, chassiskD}).withMaxVelocity(200)
+      // Green gearset, 4 in wheel diam, 11.5 in wheel track
+      .withDimensions(AbstractMotor::gearset::green, {{3.25_in, 14.5_in}, imev5GreenTPR})
+      .withOdometry()
+      .buildOdometry();
+
+  std::shared_ptr<AsyncMotionProfileController> profileController =
+  AsyncMotionProfileControllerBuilder()
+  .withLimits({
+    1.0, // Maximum linear velocity of the Chassis in m/s
+      2.0, // Maximum linear acceleration of the Chassis in m/s/s
+      10.0 // Maximum linear jerk of the Chassis in m/s/s/s)
+    })
+    .withOutput(driveAuton)
+    .buildMotionProfileController();
+
+  driveAuton->moveDistance(7_in);
+  goalController->setTarget(-120);
+  driveAuton->turnAngleAsync(30_deg);
+  Conveyor.move_velocity(200);
+  driveAuton->waitUntilSettled();
+  Conveyor.move_velocity(0);
+  driveAuton->moveDistanceAsync(-10_in);
+
+
 
 }
 

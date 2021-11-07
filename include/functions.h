@@ -51,7 +51,7 @@ void autonSelector(){
        }
      }
    }
-   master.rumble("..");
+   master.rumble("....");
 }
 
 void opDriver(double left, double right){
@@ -74,9 +74,9 @@ void goalClampMovement(bool upOrDown){
 
 void ringtakeMovement(bool upOrDown){
   if (upOrDown){
-    Ringtake.move_velocity(100);
+    Ringtake.move_velocity(200);
   } else if (upOrDown == false){
-    Ringtake.move_velocity(-100);
+    Ringtake.move_velocity(-200);
   } else {
     Ringtake.move_velocity(0);
   }
@@ -84,9 +84,9 @@ void ringtakeMovement(bool upOrDown){
 
 void conveyorMovement(bool upOrDown){
   if (upOrDown){
-    Conveyor.move_velocity(100);
+    Conveyor.move_velocity(200);
   } else if (upOrDown == false){
-    Conveyor.move_velocity(-100);
+    Conveyor.move_velocity(-200);
   } else {
     Conveyor.move_velocity(0);
   }
@@ -98,12 +98,12 @@ double platformMode(double currentMode){
   } else if (currentMode == 0.6){
     return 1;
   } else {
-
+    return 0;
   }
 }
 /*
 //For debugging things
-void printOnScreen(){
+voisd printOnScreen(){
 	//lcd::print(1, "Velocity FL: %f", FrontLeft.get_actual_velocity());
 	//lcd::print(2, "Target Velocity FL: %f", drive.wheelTL);
   pros::lcd::print(0, "Inertial Reading: %f", inertial.get_rotation());

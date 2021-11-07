@@ -6,11 +6,9 @@
 #define FL_MOTOR 1
 #define BR_MOTOR 20
 #define BL_MOTOR 11
-#define RINGTAKE 7
-#define GOALCLAMP 15
-#define CONVEYOR 5
-
-const int frmotor = 10;
+#define RINGTAKE 12
+#define GOALCLAMP 5
+#define CONVEYOR 14
 
 
 const double ticksPerDeg = 900/360;
