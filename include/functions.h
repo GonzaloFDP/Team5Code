@@ -2,6 +2,13 @@
 #include "../include/motorSetup.h"
 
 //okapi::Controller master;
+
+std::shared_ptr<AsyncVelocityController<double,double>> conveyorController =
+  AsyncVelControllerBuilder().withMotor(14).build();
+
+std::shared_ptr<AsyncVelocityController<double,double>> ringtakeController =
+  AsyncVelControllerBuilder().withMotor(12).build();
+
 //Useful Constants
 const double wheelCircumfrence = 3.25 * M_PI;
 
@@ -51,7 +58,7 @@ void autonSelector(){
        }
      }
    }
-   master.rumble("....");
+   master.rumble("..");
 }
 
 void opDriver(double left, double right){
@@ -60,6 +67,7 @@ void opDriver(double left, double right){
 	FRmotor.move_velocity(right);
 	BLmotor.move_velocity(left);
 	BRmotor.move_velocity(right);
+
 }
 
 void goalClampMovement(bool upOrDown){
@@ -74,21 +82,21 @@ void goalClampMovement(bool upOrDown){
 
 void ringtakeMovement(bool upOrDown){
   if (upOrDown){
-    Ringtake.move_velocity(200);
+    ringtakeController->setTarget(100);
   } else if (upOrDown == false){
-    Ringtake.move_velocity(-200);
+    ringtakeController->setTarget(100);
   } else {
-    Ringtake.move_velocity(0);
+    ringtakeController->setTarget(0);
   }
 }
 
 void conveyorMovement(bool upOrDown){
   if (upOrDown){
-    Conveyor.move_velocity(200);
+    conveyorController->setTarget(100);
   } else if (upOrDown == false){
-    Conveyor.move_velocity(-200);
+    conveyorController->setTarget(100);
   } else {
-    Conveyor.move_velocity(0);
+    conveyorController->setTarget(100);
   }
 }
 

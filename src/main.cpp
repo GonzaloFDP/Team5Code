@@ -4,7 +4,7 @@
 
 void initialize() {
 	pros::lcd::initialize();
-	screenPrintString(3, 2, "hiho");
+	screenPrintString(2, 2, "m");
 
 	//pros::lcd::register_btn0_cb(leftBtn);
 	//pros::lcd::register_btn1_cb(centerBtn);
@@ -43,14 +43,24 @@ void autonomous() {
    }
 }
 
+//void rings(void* param) {
+	//ringtakeMovement(param);
+	//pros::delay(10);
+//}
+
+//void conveyor(void* param){
+//	conveyorMovement(param);
+	//pros::delay(10);
+//}
 
 void opcontrol() {
+	//autonomous();
 	//okapi fancy stuff
 
 	//Chassis Controller - lets us drive the robot around with open- or closed-loop Controller
 	std::shared_ptr<ChassisController> drive =
 		ChassisControllerBuilder()
-		.withMotors(1,-10,11,20)
+		.withMotors(1,-10,11,-20)
 		//Green gearset, 4 in wheel diam, 11.5 in wheel track
 		.withDimensions(AbstractMotor::gearset::green, {{4_in, 11.5_in}, imev5GreenTPR})
 		.build();
@@ -102,15 +112,45 @@ void opcontrol() {
 	double plt4mMode = 1;
 	master.clear();
 	Clamp.set_brake_mode(MOTOR_BRAKE_HOLD);
+
+//	bool ringMove;
+//	bool convMove;
+
   while (true){
+		autonomous();
+//	pros::Task my_task(rings, (void*)ringMove, "ring");
+//	pros::Task the_task(conveyor, (void*)convMove, "conveyor");
+
+		//Conveyor Task
+
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
+				conveyorController->setTarget(150);
+		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
+				conveyorController->setTarget(-150);
+		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)){
+			conveyorController->setTarget(0);
+			Conveyor.set_brake_mode(MOTOR_BRAKE_HOLD);
+			Conveyor.move_velocity(0);
+		}
+
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
+				ringtakeController->setTarget(-150);
+		} else if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
+				ringtakeController->setTarget(150);
+		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
+			ringtakeController->setTarget(0);
+			Ringtake.set_brake_mode(MOTOR_BRAKE_COAST);
+			Ringtake.move_velocity(0);
+		}
+
 		double power = master.get_analog(ANALOG_LEFT_Y);
 		double turn = master.get_analog(ANALOG_RIGHT_X);
 		opDriver((power+turn)*plt4mMode, (power - turn)*plt4mMode);
 
 		//Clamp
-		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)){
+		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
 			goalClampMovement(true);
-		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)){
+		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
 			goalClampMovement(false);
 		} else {
 			Clamp.set_brake_mode(MOTOR_BRAKE_HOLD);
@@ -118,36 +158,8 @@ void opcontrol() {
 		}
 
 		//Auton tester
-		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_B)){
+	/*	if(master.get_digital(pros::E_CONTROLLER_DIGITAL_B)){
 			autonomous();
-		}
-
-		//Ringtake
-		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
-			ringtakeMovement(true);
-		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
-			ringtakeMovement(false);
-		} else {
-			Ringtake.set_brake_mode(MOTOR_BRAKE_COAST);
-			Ringtake.move_velocity(0);
-		}
-
-		//Conveyor
-		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
-			conveyorMovement(true);
-		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
-			conveyorMovement(false);
-		} else {
-			Conveyor.set_brake_mode(MOTOR_BRAKE_COAST);
-			Conveyor.move_velocity(0);
-		}
-
-		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
-			platformMode(plt4mMode);
-		}
-
-		screenPrintInt(2, 1, plt4mMode);
-
-    pros::delay(20);
-  }
+		}*/
+	}
 }
