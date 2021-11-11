@@ -7,8 +7,15 @@ double chassiskP = 0.001;
 double chassiskI = 0.0;
 double chassiskD = 0.0001;
 std::shared_ptr<ChassisController> driveAuton = ChassisControllerBuilder()
-    .withMotors({1,11},{-10,-20})
-    .withGains({chassiskP, chassiskI, chassiskD}, {chassiskP,chassiskI, chassiskD}).withMaxVelocity(200)
+    .withMotors({FL_MOTOR,BL_MOTOR},{FR_MOTOR,BR_MOTOR})
+    .withGains(
+    {0.002, 0.0, 0.0001}, //distance gains
+    {0.001,0.0, 0.0001} //turn gains
+    )
+    .withMaxVelocity(200)
+    .withDerivativeFilters(
+      std::make_unique<AverageFilter<3>>()
+    )
     // Green gearset, 4 in wheel diam, 11.5 in wheel track
     .withDimensions(AbstractMotor::gearset::green, {{9.75_in, 14.5_in}, imev5GreenTPR})
     .withOdometry()
@@ -27,7 +34,9 @@ AsyncMotionProfileControllerBuilder()
 
 
 std::shared_ptr<AsyncPositionController<double,double>> goalController =
-  AsyncPosControllerBuilder().withMotor(5).build();
+  AsyncPosControllerBuilder()
+  .withMotor(5)
+  .build();
 
 /*
 std::shared_ptr<AsyncPositionController<double, double>> liftControl =
@@ -85,7 +94,7 @@ void Red1(){
  BRmotor.move_relative(distanceToTicks(20), -1*MAXVELOCITY);
 }
 
-void Red2(){
+void Q1(){
 
   /*driveAuton->moveDistance(7_in);
   goalController->setTarget(-250);
@@ -97,7 +106,7 @@ void Red2(){
 
   profileController -> generatePath({
     {0_ft, 0_ft, 0_deg},
-    {1_ft, 0_ft, 0_deg}},
+    {2_ft, 0_ft, 0_deg}},
     "A" //starting position
   );
 
@@ -108,39 +117,122 @@ void Red2(){
     "B" // Profile name
   );
 
-  profileController->setTarget("B",true);
-  profileController->waitUntilSettled();
-  /*
+  profileController -> generatePath({
+    {0_ft, 0_ft, 0_deg}, // next point
+    {1_ft, 0_ft, 0_deg}, // next point
+    {1_ft, 0_ft, -90_deg}}, // next point
+    "C" // Profile name
+  );
+
+  profileController->setTarget("A",true);
+  pros::delay(3000);
   goalController->setTarget(-170);
   goalController->waitUntilSettled();
   ringtakeController->setTarget(150);
-  profileController->setTarget("B",true);
-  profileController->waitUntilSettled();
-  ringtakeController->setTarget(0);*/
-
-
-
-
-
-
-
-
-
+  profileController->setTarget("B");
+  pros::delay(800);
+  ringtakeController->setTarget(0);
+  goalController->setTarget(170);
+  goalController->waitUntilSettled();
+  profileController->setTarget("C", true);
+  pros::delay(2000);
+  goalController->setTarget(-170);
+  goalController->waitUntilSettled();
+  profileController->setTarget("A");
+  pros::delay(2500);
+  goalController->setTarget(170);
+  goalController->waitUntilSettled();
 
 }
 
-void Blue1(){
+void Q2(){
+  profileController->generatePath({
+    {0_in,0_ft,0_deg},
+    {3_in,0_ft,0_deg}},
+    "D"
+  );
+
+  profileController->generatePath({
+    {5_in,0_ft,0_deg},
+    {0_in,0_ft,0_deg},
+    {0_in,0_ft,-90_deg}},
+    "E"
+  );
+
+  profileController->generatePath({
+    {0_ft,0_ft,0_deg},
+    {3_ft,0_ft,0_deg}},
+    "F"
+  );
+
   profileController->generatePath({
     {0_ft,0_ft,0_deg},
     {2_ft,0_ft,0_deg}},
-    "C"
+    "G"
   );
 
-  profileController->setTarget("C");
-  pros::delay(2000);
+
+  profileController->setTarget("D",true);
+  pros::delay(500);
+  goalController->setTarget(-170);
+  goalController->waitUntilSettled();
+  ringtakeController->setTarget(150);
+  pros::delay(900);
+  ringtakeController->setTarget(0);
+  goalController->setTarget(170);
+  goalController->waitUntilSettled();
+  profileController->setTarget("E");
+  pros::delay(400);
+  profileController->setTarget("F",true);
+  pros::delay(1750);
+  goalController->setTarget(-170);
+  goalController->waitUntilSettled();
+  profileController->setTarget("G");
+
 
 }
 
-void Blue2(){
+void E1(){
+  profileController->generatePath({
+    {0_ft,0_ft,0_deg},
+    {3_ft,0_ft,0_deg}},
+    "H"
+  );
 
+  profileController->generatePath({
+    {0_ft,0_ft,0_deg},
+    {2_ft,0_ft,0_deg},
+    {2_ft,0_ft,90_deg}},
+    "I"
+  );
+
+  profileController->setTarget("H",true);
+  pros::delay(3000);
+  goalController->setTarget(-170);
+  goalController->waitUntilSettled();
+  profileController->setTarget("I");
+  pros::delay(3000);
+
+}
+
+void E2(){
+  profileController->generatePath({
+    {0_ft,0_ft,0_deg},
+    {3_ft,0_ft,0_deg}},
+    "J"
+  );
+
+  profileController->generatePath({
+    {0_ft,0_ft,0_deg},
+    {2_ft,0_ft,0_deg},
+    {2_ft,0_ft,90_deg}},
+    "K"
+  );
+
+  profileController->setTarget("J",true);
+  pros::delay(3000);
+  goalController->setTarget(-170);
+  goalController->waitUntilSettled();
+  profileController->setTarget("K");
+  pros::delay(3000);
 }

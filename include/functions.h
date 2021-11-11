@@ -4,17 +4,17 @@
 //okapi::Controller master;
 
 std::shared_ptr<AsyncVelocityController<double,double>> conveyorController =
-  AsyncVelControllerBuilder().withMotor(14).build();
+  AsyncVelControllerBuilder().withMotor(CONVEYOR).build();
 
 std::shared_ptr<AsyncVelocityController<double,double>> ringtakeController =
-  AsyncVelControllerBuilder().withMotor(12).build();
+  AsyncVelControllerBuilder().withMotor(RINGTAKE).build(); //? idk why this doesn't work
 
 //Useful Constants
 const double wheelCircumfrence = 3.25 * M_PI;
 
 int countr = 0;
-std::string autons[4] = {"Red1", "Red2", "Blue1", "Blue2"};
-int size = 4;//*(&autons + 1) - autons;
+std::string autons[5] = {"Red1", "Q1", "Q2", "E1", "E2"};
+int size = 5;//*(&autons + 1) - autons;
 
 void screenPrintString(int e, int o, std::string i){
   master.print(e,o,"%s",i.c_str());

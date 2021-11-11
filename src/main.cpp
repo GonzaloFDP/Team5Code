@@ -25,13 +25,13 @@ void autonomous() {
      case 0:
 		 	Red1();
      case 1:
-		 	Red2();
+		 	Q1();
      case 2:
-		  Blue1();
+		  Q2();
      case 3:
-		  Blue2();
+		  E1();
      case 4:
-
+		 	E2();
      case 5:
 
      case 6:
@@ -133,14 +133,14 @@ void opcontrol() {
 			Conveyor.move_velocity(0);
 		}
 
-		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){ //remember to check ports; see if connected
+				ringtakeController->setTarget(150);//                          to port 12
+		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
 				ringtakeController->setTarget(-150);
-		} else if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
-				ringtakeController->setTarget(150);
 		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
 			ringtakeController->setTarget(0);
-			Ringtake.set_brake_mode(MOTOR_BRAKE_COAST);
-			Ringtake.move_velocity(0);
+			Conveyor.set_brake_mode(MOTOR_BRAKE_HOLD);
+			Conveyor.move_velocity(0);
 		}
 
 		double power = master.get_analog(ANALOG_LEFT_Y);
