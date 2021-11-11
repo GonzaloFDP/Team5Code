@@ -4,7 +4,7 @@
 
 void initialize() {
 	pros::lcd::initialize();
-	screenPrintString(2, 2, "m");
+	screenPrintString(2, 2, "q");
 
 	//pros::lcd::register_btn0_cb(leftBtn);
 	//pros::lcd::register_btn1_cb(centerBtn);
@@ -24,16 +24,22 @@ void autonomous() {
   switch(countr){
      case 0:
 		 	Red1();
+			break;
      case 1:
 		 	Q1();
+			break;
      case 2:
 		  Q2();
+			break;
      case 3:
 		  E1();
+			break;
      case 4:
 		 	E2();
+			break;
      case 5:
-
+		 	disabledAuton();
+			break;
      case 6:
 
      case 7:
@@ -41,6 +47,7 @@ void autonomous() {
 		 case 8:
 		 	skills();
    }
+
 }
 
 //void rings(void* param) {
@@ -115,9 +122,10 @@ void opcontrol() {
 
 //	bool ringMove;
 //	bool convMove;
+	autonomous();
 
   while (true){
-		autonomous();
+
 //	pros::Task my_task(rings, (void*)ringMove, "ring");
 //	pros::Task the_task(conveyor, (void*)convMove, "conveyor");
 
@@ -134,9 +142,9 @@ void opcontrol() {
 		}
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){ //remember to check ports; see if connected
-				ringtakeController->setTarget(150);//                          to port 12
+				ringtakeController->setTarget(-150);//                          to port 12
 		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
-				ringtakeController->setTarget(-150);
+				ringtakeController->setTarget(150);
 		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
 			ringtakeController->setTarget(0);
 			Conveyor.set_brake_mode(MOTOR_BRAKE_HOLD);
@@ -149,9 +157,9 @@ void opcontrol() {
 
 		//Clamp
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
-			goalClampMovement(true);
-		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
 			goalClampMovement(false);
+		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
+			goalClampMovement(true);
 		} else {
 			Clamp.set_brake_mode(MOTOR_BRAKE_HOLD);
 			Clamp.move_velocity(0);

@@ -38,6 +38,7 @@ std::shared_ptr<AsyncPositionController<double,double>> goalController =
   .withMotor(5)
   .build();
 
+
 /*
 std::shared_ptr<AsyncPositionController<double, double>> liftControl =
     AsyncPosControllerBuilder().withMotor(PBPort).build();
@@ -46,10 +47,6 @@ std::shared_ptr<AsyncPositionController<double, double>> fourbar =
 */
 //This file has all of the autonomous
 void disabledAuton(){
-
-}
-
-void pop(){
 
 }
 
@@ -107,41 +104,33 @@ void Q1(){
   profileController -> generatePath({
     {0_ft, 0_ft, 0_deg},
     {2_ft, 0_ft, 0_deg}},
-    "A" //starting position
+    "2feet" //starting position
   );
 
   profileController -> generatePath({
-    {0_ft, 0_ft, 0_deg}, // next point
-    {0_ft, 0_ft, 90_deg}, // next point
-    {1_ft, 0_ft, 90_deg}}, // next point
-    "B" // Profile name
+    {0_ft, 0_ft, 0_deg},
+    {1_ft, 0_ft, 0_deg}},
+    "1foot" //starting position
   );
 
-  profileController -> generatePath({
-    {0_ft, 0_ft, 0_deg}, // next point
-    {1_ft, 0_ft, 0_deg}, // next point
-    {1_ft, 0_ft, -90_deg}}, // next point
-    "C" // Profile name
+  profileController->generatePath({
+    {0_in, 0_ft, 0_deg},
+    {5_in,0_ft,0_deg}},
+    "5inches"
   );
 
-  profileController->setTarget("A",true);
-  pros::delay(3000);
-  goalController->setTarget(-170);
-  goalController->waitUntilSettled();
-  ringtakeController->setTarget(150);
-  profileController->setTarget("B");
-  pros::delay(800);
-  ringtakeController->setTarget(0);
-  goalController->setTarget(170);
-  goalController->waitUntilSettled();
-  profileController->setTarget("C", true);
+  profileController->setTarget("2feet",true); //move towards alliance goal
+  pros::delay(800); // wait 800 ms
+  Clamp.move_relative(-degForGoalClamp, 100); //lower clamp
+  pros::delay(1500); //wait until clamp is done
+  conveyorController->setTarget(200); //start conveyor at max speed
+  driveAuton->turnAngle(180_deg); //turn 90 degrees left
+  pros::delay(800); //wait until done turning
+  conveyorController->setTarget(0); //stop conveyor
+  profileController->setTarget("1foot"); //move towads neumogo
   pros::delay(2000);
-  goalController->setTarget(-170);
-  goalController->waitUntilSettled();
-  profileController->setTarget("A");
-  pros::delay(2500);
-  goalController->setTarget(170);
-  goalController->waitUntilSettled();
+  Clamp.move_relative(degForGoalClamp, 100); //raise clamp
+  pros::delay(1500);
 
 }
 
@@ -153,13 +142,6 @@ void Q2(){
   );
 
   profileController->generatePath({
-    {5_in,0_ft,0_deg},
-    {0_in,0_ft,0_deg},
-    {0_in,0_ft,-90_deg}},
-    "E"
-  );
-
-  profileController->generatePath({
     {0_ft,0_ft,0_deg},
     {3_ft,0_ft,0_deg}},
     "F"
@@ -167,28 +149,22 @@ void Q2(){
 
   profileController->generatePath({
     {0_ft,0_ft,0_deg},
-    {2_ft,0_ft,0_deg}},
+    {1_ft,0_ft,0_deg}},
     "G"
   );
 
 
   profileController->setTarget("D",true);
-  pros::delay(500);
-  goalController->setTarget(-170);
-  goalController->waitUntilSettled();
-  ringtakeController->setTarget(150);
-  pros::delay(900);
-  ringtakeController->setTarget(0);
-  goalController->setTarget(170);
-  goalController->waitUntilSettled();
-  profileController->setTarget("E");
-  pros::delay(400);
-  profileController->setTarget("F",true);
-  pros::delay(1750);
-  goalController->setTarget(-170);
-  goalController->waitUntilSettled();
+  pros::delay(700);
+  Clamp.move_relative(-degForGoalClamp, 100); //lower clamp
+  pros::delay(1500); //wait until clamp is done
+  conveyorController->setTarget(200); //start conveyor at max speed
+  pros::delay(1500);
+  conveyorController->setTarget(0);
+  Clamp.move_relative(degForGoalClamp, 100); //lower clamp
+  pros::delay(1500); //wait until clamp is done
   profileController->setTarget("G");
-
+  pros::delay(1500);
 
 }
 
@@ -199,19 +175,14 @@ void E1(){
     "H"
   );
 
-  profileController->generatePath({
-    {0_ft,0_ft,0_deg},
-    {2_ft,0_ft,0_deg},
-    {2_ft,0_ft,90_deg}},
-    "I"
-  );
 
   profileController->setTarget("H",true);
-  pros::delay(3000);
-  goalController->setTarget(-170);
-  goalController->waitUntilSettled();
-  profileController->setTarget("I");
-  pros::delay(3000);
+  pros::delay(1600);
+  Clamp.move_relative(-degForGoalClamp, 100); //lower clamp
+  pros::delay(2000); //wait until clamp is done
+  profileController->setTarget("H");
+  pros::delay(2000);
+
 
 }
 
@@ -222,17 +193,10 @@ void E2(){
     "J"
   );
 
-  profileController->generatePath({
-    {0_ft,0_ft,0_deg},
-    {2_ft,0_ft,0_deg},
-    {2_ft,0_ft,90_deg}},
-    "K"
-  );
-
   profileController->setTarget("J",true);
-  pros::delay(3000);
-  goalController->setTarget(-170);
-  goalController->waitUntilSettled();
-  profileController->setTarget("K");
-  pros::delay(3000);
+  pros::delay(1600);
+  Clamp.move_relative(-degForGoalClamp, 100); //lower clamp
+  pros::delay(2000); //wait until clamp is done
+  profileController->setTarget("J");
+  pros::delay(1500);
 }
