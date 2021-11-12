@@ -4,7 +4,7 @@
 
 void initialize() {
 	pros::lcd::initialize();
-	screenPrintString(2, 2, "q");
+	screenPrintString(2, 2, "t");
 
 	//pros::lcd::register_btn0_cb(leftBtn);
 	//pros::lcd::register_btn1_cb(centerBtn);
@@ -59,6 +59,12 @@ void autonomous() {
 //	conveyorMovement(param);
 	//pros::delay(10);
 //}
+
+/*void my_task_fn(void* param) {
+	std::string t = std::to_string( (FLmotor.get_temperature()+FRmotor.get_temperature() + BLmotor.get_temperature()+ BRmotor.get_temperature()+Clamp.get_temperature()+Ringtake.get_temperature()+ Conveyor.get_temperature())/7);
+	screenPrintString(1, 1, t);
+	pros::delay(200);
+}*/
 
 void opcontrol() {
 	//autonomous();
@@ -122,9 +128,9 @@ void opcontrol() {
 
 //	bool ringMove;
 //	bool convMove;
-	autonomous();
 
   while (true){
+	//pros::Task my_task(my_task_fn);
 
 //	pros::Task my_task(rings, (void*)ringMove, "ring");
 //	pros::Task the_task(conveyor, (void*)convMove, "conveyor");
@@ -132,9 +138,9 @@ void opcontrol() {
 		//Conveyor Task
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
-				conveyorController->setTarget(150);
+				conveyorController->setTarget(190);
 		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
-				conveyorController->setTarget(-150);
+				conveyorController->setTarget(-190);
 		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)){
 			conveyorController->setTarget(0);
 			Conveyor.set_brake_mode(MOTOR_BRAKE_HOLD);
@@ -142,9 +148,9 @@ void opcontrol() {
 		}
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){ //remember to check ports; see if connected
-				ringtakeController->setTarget(-150);//                          to port 12
+				ringtakeController->setTarget(-175);//                          to port 12
 		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
-				ringtakeController->setTarget(150);
+				ringtakeController->setTarget(175);
 		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
 			ringtakeController->setTarget(0);
 			Conveyor.set_brake_mode(MOTOR_BRAKE_HOLD);
@@ -153,7 +159,7 @@ void opcontrol() {
 
 		double power = master.get_analog(ANALOG_LEFT_Y);
 		double turn = master.get_analog(ANALOG_RIGHT_X);
-		opDriver((power+turn)*plt4mMode, (power - turn)*plt4mMode);
+		opDriver((power+turn), (power - turn));
 
 		//Clamp
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){

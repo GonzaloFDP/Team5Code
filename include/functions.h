@@ -12,7 +12,7 @@ std::shared_ptr<AsyncVelocityController<double,double>> ringtakeController =
 //Useful Constants
 const double wheelCircumfrence = 3.25 * M_PI;
 
-const int degForGoalClamp = 3000;
+const int degForGoalClamp = 4000;
 
 int countr = 0;
 std::string autons[6] = {"Red1", "Q1", "Q2", "E1", "E2", "Disabled"};

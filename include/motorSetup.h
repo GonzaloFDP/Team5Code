@@ -6,7 +6,7 @@
 #define FL_MOTOR 1
 #define BR_MOTOR 20
 #define BL_MOTOR 11
-#define RINGTAKE 12
+#define RINGTAKE 15
 #define GOALCLAMP 5
 #define CONVEYOR 14
 
