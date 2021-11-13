@@ -73,7 +73,7 @@ void opDriver(double left, double right){
 }
 
 void goalClampMovement(bool upOrDown){
-  if (upOrDown && !Clamp.get_position()){
+  if (upOrDown){
     Clamp.move_velocity(200);//up
   } else if (upOrDown == false){
     Clamp.move_velocity(-200);//down
