@@ -12,7 +12,7 @@ std::shared_ptr<AsyncVelocityController<double,double>> ringtakeController =
 //Useful Constants
 const double wheelCircumfrence = 3.25 * M_PI;
 
-const int degForGoalClamp = 4000;
+const int degForGoalClamp = 2200;
 
 int countr = 0;
 std::string autons[6] = {"Red1", "Q1", "Q2", "E1", "E2", "Disabled"};
@@ -73,10 +73,10 @@ void opDriver(double left, double right){
 }
 
 void goalClampMovement(bool upOrDown){
-  if (upOrDown){
-    Clamp.move_velocity(100);
+  if (upOrDown && !Clamp.get_position()){
+    Clamp.move_velocity(200);//up
   } else if (upOrDown == false){
-    Clamp.move_velocity(-100);
+    Clamp.move_velocity(-200);//down
   } else {
     Clamp.move_velocity(0);
   }

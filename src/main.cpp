@@ -4,7 +4,7 @@
 
 void initialize() {
 	pros::lcd::initialize();
-	screenPrintString(2, 2, "t");
+	screenPrintString(2, 2, "u");
 
 	//pros::lcd::register_btn0_cb(leftBtn);
 	//pros::lcd::register_btn1_cb(centerBtn);
@@ -159,6 +159,7 @@ void opcontrol() {
 
 		double power = master.get_analog(ANALOG_LEFT_Y);
 		double turn = master.get_analog(ANALOG_RIGHT_X);
+		
 		opDriver((power+turn), (power - turn));
 
 		//Clamp

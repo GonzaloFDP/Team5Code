@@ -109,7 +109,7 @@ void Q1(){
 
   profileController -> generatePath({
     {0_ft, 0_ft, 0_deg},
-    {20_in, 0_ft, 0_deg}},
+    {28_in, 0_ft, 0_deg}},
     "20Inches" //starting position
   );
 
@@ -119,19 +119,19 @@ void Q1(){
     "5inches"
   );
 
-  profileController->setTarget("31Inches",true); //move towards alliance goal
-  pros::delay(800); // wait 800 ms
-  Clamp.move_relative(-degForGoalClamp, 100); //lower clamp
-  pros::delay(3200); //wait until clamp is done
+  profileController->setTarget("31Inches"); //move towards alliance goal
+  pros::delay(810); // wait 800 ms
+  Clamp.move_relative(-degForGoalClamp, 200); //lower clamp
+  pros::delay(1000); //wait until clamp is done
   conveyorController->setTarget(200); //start conveyor at max speed
-  driveAuton->turnAngle(180_deg); //turn 90 degrees left
+  //turn 90 degrees left
   pros::delay(800); //wait until done turning
   conveyorController->setTarget(0); //stop conveyor
-  profileController->setTarget("20Inches"); //move towads neumogo
+  profileController->setTarget("20Inches",true); //move towads neumogo
   pros::delay(2500);
-  Clamp.move_relative(degForGoalClamp, 100); //raise clamp
-  pros::delay(3000);
-  profileController->setTarget("20Inches");
+  Clamp.move_relative(degForGoalClamp, 200); //raise clamp
+  pros::delay(2400);
+  profileController->setTarget("5inches",true);
   pros::delay(2500);
 
 }
@@ -156,16 +156,16 @@ void Q2(){
   );
 
 
-  profileController->setTarget("D",true);
+  profileController->setTarget("D");
   pros::delay(700);
-  Clamp.move_relative(-degForGoalClamp, 100); //lower clamp
-  pros::delay(3200); //wait until clamp is done
+  Clamp.move_relative(-degForGoalClamp, 200); //lower clamp
+  pros::delay(1000); //wait until clamp is done
   conveyorController->setTarget(200); //start conveyor at max speed
   pros::delay(1500);
   conveyorController->setTarget(0);
-  Clamp.move_relative(degForGoalClamp, 100); //lower clamp
+  Clamp.move_relative(degForGoalClamp, 200); //lower clamp
   pros::delay(3200); //wait until clamp is done
-  profileController->setTarget("G");
+  profileController->setTarget("G",true);
   pros::delay(1500);
 
 }
@@ -173,16 +173,16 @@ void Q2(){
 void E1(){
   profileController->generatePath({
     {0_ft,0_ft,0_deg},
-    {3_ft,0_ft,0_deg}},
+    {84_in,0_ft,0_deg}},
     "H"
   );
 
 
-  profileController->setTarget("H",true);
-  pros::delay(1600);
-  Clamp.move_relative(-degForGoalClamp, 100); //lower clamp
-  pros::delay(3200); //wait until clamp is done
   profileController->setTarget("H");
+  pros::delay(2000);
+  Clamp.move_relative(-degForGoalClamp, 200); //lower clamp
+  pros::delay(1000); //wait until clamp is done
+  profileController->setTarget("H",true);
   pros::delay(2000);
 
 
@@ -191,14 +191,14 @@ void E1(){
 void E2(){
   profileController->generatePath({
     {0_ft,0_ft,0_deg},
-    {3_ft,0_ft,0_deg}},
+    {42_in,0_ft,0_deg}},
     "J"
   );
 
-  profileController->setTarget("J",true);
-  pros::delay(1600);
-  Clamp.move_relative(-degForGoalClamp, 100); //lower clamp
-  pros::delay(3200); //wait until clamp is done
   profileController->setTarget("J");
+  pros::delay(1600);
+  Clamp.move_relative(-degForGoalClamp, 200); //lower clamp
+  pros::delay(3200); //wait until clamp is done
+  profileController->setTarget("J",true);
   pros::delay(1500);
 }

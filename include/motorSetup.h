@@ -2,10 +2,10 @@
 
 
 //Ports
-#define FR_MOTOR 10
-#define FL_MOTOR 1
-#define BR_MOTOR 20
-#define BL_MOTOR 11
+#define FR_MOTOR 11 //10
+#define FL_MOTOR 20 //1
+#define BR_MOTOR 1 //20
+#define BL_MOTOR 10 //11
 #define RINGTAKE 15
 #define GOALCLAMP 5
 #define CONVEYOR 14
@@ -32,7 +32,7 @@ ControllerButton down(ControllerDigital::down);
 */
 
 //pros::Controller control (E_CONTROLLER_MASTER);
-pros::Motor Clamp(GOALCLAMP, pros::E_MOTOR_GEARSET_36);
+pros::Motor Clamp(GOALCLAMP, pros::E_MOTOR_GEARSET_18);
 
 pros::Motor FLmotor(FL_MOTOR);
 pros::Motor FRmotor(FR_MOTOR, true);
