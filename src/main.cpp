@@ -4,7 +4,7 @@
 
 void initialize() {
 	pros::lcd::initialize();
-	screenPrintString(2, 2, "u");
+	screenPrintString(2, 2, "e");
 
 	//pros::lcd::register_btn0_cb(leftBtn);
 	//pros::lcd::register_btn1_cb(centerBtn);
@@ -138,9 +138,9 @@ void opcontrol() {
 		//Conveyor Task
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
-				conveyorController->setTarget(190);
-		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
 				conveyorController->setTarget(-190);
+		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
+				conveyorController->setTarget(190);
 		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)){
 			conveyorController->setTarget(0);
 			Conveyor.set_brake_mode(MOTOR_BRAKE_HOLD);
@@ -157,10 +157,18 @@ void opcontrol() {
 			Conveyor.move_velocity(0);
 		}
 
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)){ //remember to check ports; see if connected
+			hoodController->setTarget(175);
+		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)){
+			hoodController->setTarget(0);
+			Conveyor.set_brake_mode(MOTOR_BRAKE_HOLD);
+			Conveyor.move_velocity(0);
+		}
+
 		double power = master.get_analog(ANALOG_LEFT_Y);
 		double turn = master.get_analog(ANALOG_RIGHT_X);
-		
-		opDriver((power+turn), (power - turn));
+
+		opDriver((power+turn)*1.6, (power - turn)*1.6);
 
 		//Clamp
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){

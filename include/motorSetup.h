@@ -9,6 +9,7 @@
 #define RINGTAKE 15
 #define GOALCLAMP 5
 #define CONVEYOR 14
+#define HOOD 19
 
 
 const double ticksPerDeg = 900/360;
@@ -43,6 +44,8 @@ pros::Motor Ringtake(RINGTAKE);
 
 
 pros::Motor Conveyor(CONVEYOR);
+
+pros::Motor Hood(HOOD);
 
 /*
 pros::Motor LeftIntake(LIPort, false);
