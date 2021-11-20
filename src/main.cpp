@@ -4,7 +4,7 @@
 
 void initialize() {
 	pros::lcd::initialize();
-	screenPrintString(2, 2, "e");
+	screenPrintString(2, 2, "h");
 
 	//pros::lcd::register_btn0_cb(leftBtn);
 	//pros::lcd::register_btn1_cb(centerBtn);
@@ -74,6 +74,7 @@ void opcontrol() {
 	std::shared_ptr<ChassisController> drive =
 		ChassisControllerBuilder()
 		.withMotors(1,-10,11,-20)
+//haha funny meme
 		//Green gearset, 4 in wheel diam, 11.5 in wheel track
 		.withDimensions(AbstractMotor::gearset::green, {{4_in, 11.5_in}, imev5GreenTPR})
 		.build();
@@ -153,22 +154,22 @@ void opcontrol() {
 				ringtakeController->setTarget(175);
 		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
 			ringtakeController->setTarget(0);
-			Conveyor.set_brake_mode(MOTOR_BRAKE_HOLD);
-			Conveyor.move_velocity(0);
+			Ringtake.set_brake_mode(MOTOR_BRAKE_COAST);
+			Ringtake.move_velocity(0);
 		}
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)){ //remember to check ports; see if connected
-			hoodController->setTarget(175);
+			hoodController->setTarget(150);
 		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)){
 			hoodController->setTarget(0);
-			Conveyor.set_brake_mode(MOTOR_BRAKE_HOLD);
-			Conveyor.move_velocity(0);
+			Hood.set_brake_mode(MOTOR_BRAKE_COAST);
+			Hood.move_velocity(0);
 		}
 
 		double power = master.get_analog(ANALOG_LEFT_Y);
 		double turn = master.get_analog(ANALOG_RIGHT_X);
 
-		opDriver((power+turn)*1.6, (power - turn)*1.6);
+		opDriver((power+turn)*1.2, (power - turn)*1.2);
 
 		//Clamp
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){

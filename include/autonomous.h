@@ -103,8 +103,8 @@ void Q1(){
 
   profileController -> generatePath({
     {0_ft, 0_ft, 0_deg},
-    {31_in, 0_ft, 0_deg}},
-    "31Inches" //starting position
+    {34_in, 0_ft, 0_deg}},
+    "34Inches" //starting position
   );
 
   profileController -> generatePath({
@@ -119,18 +119,18 @@ void Q1(){
     "5inches"
   );
 
-  profileController->setTarget("31Inches"); //move towards alliance goal
-  pros::delay(810); // wait 800 ms
+  profileController->setTarget("34Inches"); //move towards alliance goal
+  pros::delay(950); // wait 800 ms
   Clamp.move_relative(-degForGoalClamp, 200); //lower clamp
-  pros::delay(1000); //wait until clamp is done
+  pros::delay(1600); //wait until clamp is done
   conveyorController->setTarget(-190);
-  hoodController->setTarget(175);
-  profileController->setTarget("31Inches",true); //move towads neumogo
-  pros::delay(2500);
+  hoodController->setTarget(150);
+  profileController->setTarget("34Inches",true); //move towads neumogo
+  pros::delay(3000);
   conveyorController->setTarget(0); //stop conveyor
   hoodController->setTarget(0);
   Clamp.move_relative(degForGoalClamp,200);
-  pros::delay(1000);
+  pros::delay(1800);
 
 }
 
@@ -182,46 +182,54 @@ void E1(){
 
   profileController->generatePath({
     {0_ft,0_ft,0_deg},
-    {10_in,0_ft,0_deg}},
+    {20_in,0_ft,0_deg}},
     "Y"
   );
 
   profileController->generatePath({
+    {0_in,0_ft,0_deg},
+    {50_in,0_ft,0_deg}},
+    "P"
+  );
+
+  profileController->generatePath({
     {0_ft,0_ft,0_deg},
-    {1_ft,0_ft,0_deg}},
+    {44_in,0_ft,0_deg}},
     "R"
   );
 
   profileController->generatePath({
     {0_ft,0_ft,0_deg},
-    {8_in,0_ft,0_deg}},
+    {30_in,0_ft,0_deg}},
     "S"
   );
 
 
   profileController->setTarget("H");
   pros::delay(2200);
-  Clamp.move_relative(-degForGoalClamp, 200); //lower clamp
+  Clamp.move_relative(-1900, 200); //lower clamp
   pros::delay(900); //wait until clamp is done
   profileController->setTarget("Z",true);
   pros::delay(1500);
-  driveAuton->turnAngle(270_deg);
-  profileController->setTarget("Z");
-  pros::delay(1700);
-  Clamp.move_relative(degForGoalClamp, 200);
+  driveAuton->turnAngle(240_deg);
+  profileController->setTarget("P");
+  pros::delay(1800);
+  Clamp.move_relative(1900, 200);
   pros::delay(600);
-  profileController->setTarget("Y",true);
-  driveAuton->turnAngle(-180_deg);
+  profileController->setTarget("P",true);
+  pros::delay(1800);
+  driveAuton->turnAngle(-100_deg);
   //turn -90 degrees
   profileController->setTarget("R");
-  //move forward
+  pros::delay(2000);
+  //move e
   Clamp.move_relative(-degForGoalClamp, 200); //lower clamp
   pros::delay(900); //wait until clamp is done
   //clamp alliance
   conveyorController->setTarget(-190);
-  hoodController->setTarget(175);
+  hoodController->setTarget(150);
   profileController->setTarget("S",true); //move towads neumogo
-  pros::delay(1000);
+  pros::delay(2500);
   conveyorController->setTarget(0); //stop conveyor
   hoodController->setTarget(0);
   //start conveyor and hood
