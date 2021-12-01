@@ -4,7 +4,7 @@
 
 void initialize() {
 	pros::lcd::initialize();
-	screenPrintString(2, 2, "h");
+	screenPrintString(2, 2, "i");
 
 	//pros::lcd::register_btn0_cb(leftBtn);
 	//pros::lcd::register_btn1_cb(centerBtn);
@@ -139,9 +139,9 @@ void opcontrol() {
 		//Conveyor Task
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
-				conveyorController->setTarget(-190);
+				conveyorController->setTarget(-165);
 		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
-				conveyorController->setTarget(190);
+				conveyorController->setTarget(165);
 		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)){
 			conveyorController->setTarget(0);
 			Conveyor.set_brake_mode(MOTOR_BRAKE_HOLD);
@@ -159,7 +159,7 @@ void opcontrol() {
 		}
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)){ //remember to check ports; see if connected
-			hoodController->setTarget(150);
+			hoodController->setTarget(165);
 		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)){
 			hoodController->setTarget(0);
 			Hood.set_brake_mode(MOTOR_BRAKE_COAST);

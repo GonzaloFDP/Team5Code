@@ -8,7 +8,7 @@ std::shared_ptr<AsyncVelocityController<double,double>> conveyorController =
 
 std::shared_ptr<AsyncVelocityController<double,double>> ringtakeController =
   AsyncVelControllerBuilder().withMotor(RINGTAKE).build(); //? idk why this doesn't work
-  
+
 std::shared_ptr<AsyncVelocityController<double,double>> hoodController =
   AsyncVelControllerBuilder().withMotor(HOOD).build();
 
