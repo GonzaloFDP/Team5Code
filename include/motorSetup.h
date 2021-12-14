@@ -9,8 +9,9 @@
 #define RINGTAKE 15
 #define GOALCLAMP 5
 #define CONVEYOR 14
-#define HOOD 19
-
+#define FOURBAR 19
+#define FORKLIFTLEFT 18
+#define FORKLIFTRIGHT 17
 
 const double ticksPerDeg = 900/360;
 //200*4.125*pi/60 * sqrt(2), = 60
@@ -42,11 +43,11 @@ pros::Motor BRmotor(BR_MOTOR, true);
 
 pros::Motor Ringtake(RINGTAKE);
 
-
 pros::Motor Conveyor(CONVEYOR);
 
-pros::Motor Hood(HOOD);
-
+pros::Motor Fourbar(FOURBAR, pros::E_MOTOR_GEARSET_36);
+pros::Motor ForkliftLeft(FORKLIFTLEFT, pros::E_MOTOR_GEARSET_36, true);
+pros::Motor ForkliftRight(FORKLIFTRIGHT, pros::E_MOTOR_GEARSET_36);
 /*
 pros::Motor LeftIntake(LIPort, false);
 pros::Motor RightIntake(RIPort, true);

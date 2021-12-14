@@ -9,9 +9,6 @@ std::shared_ptr<AsyncVelocityController<double,double>> conveyorController =
 std::shared_ptr<AsyncVelocityController<double,double>> ringtakeController =
   AsyncVelControllerBuilder().withMotor(RINGTAKE).build(); //? idk why this doesn't work
 
-std::shared_ptr<AsyncVelocityController<double,double>> hoodController =
-  AsyncVelControllerBuilder().withMotor(HOOD).build();
-
 //Useful Constants
 const double wheelCircumfrence = 3.25 * M_PI;
 
@@ -102,6 +99,32 @@ void conveyorMovement(bool upOrDown){
     conveyorController->setTarget(100);
   } else {
     conveyorController->setTarget(0);
+  }
+}
+/* four bar
+void fourBarMovement(bool upOrDown){
+  if (upOrDown){
+    Fourbar.move_velocity(100); //up
+  } else if (upOrDown == false){
+    Fourbar.move_velocity(-100); //down
+  } else {
+    Fourbar.move_velocity(0);
+  }
+}
+*/
+// fork lift
+void forkLiftMovement(bool upOrDown){
+  if(upOrDown){
+    ForkliftLeft.move_velocity(100);
+    ForkliftRight.move_velocity(100);
+  }
+  else if(upOrDown == false){
+    ForkliftLeft.move_velocity(-100);
+    ForkliftRight.move_velocity(-100);
+  }
+  else{
+    ForkliftLeft.move_velocity(0);
+    ForkliftRight.move_velocity(0);
   }
 }
 

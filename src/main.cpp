@@ -11,6 +11,7 @@ void initialize() {
 	//pros::lcd::register_btn2_cb(rightBtn);
 
 	Clamp.set_brake_mode(MOTOR_BRAKE_HOLD);
+	Fourbar.set_brake_mode(MOTOR_BRAKE_HOLD);
   autonSelector();
 
 	//autonSelector();
@@ -139,9 +140,9 @@ void opcontrol() {
 		//Conveyor Task
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
-				conveyorController->setTarget(-165);
+				conveyorController->setTarget(-167);
 		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
-				conveyorController->setTarget(165);
+				conveyorController->setTarget(167);
 		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)){
 			conveyorController->setTarget(0);
 			Conveyor.set_brake_mode(MOTOR_BRAKE_HOLD);
@@ -157,19 +158,31 @@ void opcontrol() {
 			Ringtake.set_brake_mode(MOTOR_BRAKE_COAST);
 			Ringtake.move_velocity(0);
 		}
-
-		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)){ //remember to check ports; see if connected
-			hoodController->setTarget(165);
-		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)){
-			hoodController->setTarget(0);
-			Hood.set_brake_mode(MOTOR_BRAKE_COAST);
-			Hood.move_velocity(0);
+// fork lift
+		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
+			forkLiftMovement(true);
+		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
+			forkLiftMovement(false);
+		} else {
+			ForkliftLeft.set_brake_mode(MOTOR_BRAKE_HOLD);
+			ForkliftRight.set_brake_mode(MOTOR_BRAKE_HOLD);
+			ForkliftLeft.move_velocity(0);
+			ForkliftRight.move_velocity(0);
 		}
-
+	/*	four bar
+	if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){ //remember to check ports; see if connected
+		fourBarMovement(true); //down
+	} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
+		fourBarMovement(false); //up
+	} else {
+		Fourbar.set_brake_mode(MOTOR_BRAKE_HOLD);
+		Fourbar.move_velocity(0);
+	}
+*/
 		double power = master.get_analog(ANALOG_LEFT_Y);
 		double turn = master.get_analog(ANALOG_RIGHT_X);
 
-		opDriver((power+turn)*1.2, (power - turn)*1.2);
+		opDriver((power+turn)*1.6, (power - turn)*1.6);
 
 		//Clamp
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
