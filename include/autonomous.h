@@ -17,7 +17,7 @@ std::shared_ptr<ChassisController> driveAuton = ChassisControllerBuilder()
       std::make_unique<AverageFilter<3>>()
     )
     // Green gearset, 4 in wheel diam, 11.5 in wheel track
-    .withDimensions(AbstractMotor::gearset::green, {{2.16_in, 14.5_in}, imev5GreenTPR})
+    .withDimensions(AbstractMotor::gearset::green, {{2.17_in, 14.5_in}, imev5GreenTPR})
     .withOdometry()
     .buildOdometry();
 
@@ -97,11 +97,11 @@ std::shared_ptr<AsyncPositionController<double,double>> goalController =
   void E1(){
     profileController->generatePath({
       {0_ft,0_ft,0_deg},
-      {84_in,0_ft,0_deg}},
+      {93_in,0_ft,0_deg}},
       "E1_step_1"
     );
     profileController->setTarget("E1_step_1");
-    pros::delay(2300);
+    pros::delay(2400);
     Clamp.move_relative(-1900, 200); //lower clamp
     pros::delay(900); //wait until clamp is done
     profileController->generatePath({
@@ -128,7 +128,7 @@ std::shared_ptr<AsyncPositionController<double,double>> goalController =
     );
     profileController->setTarget("E1_step_4",true);
     pros::delay(1800);
-    driveAuton->turnAngle(-90_deg);
+    driveAuton->turnAngle(-120_deg);
     //turn -90 degrees
     profileController->setTarget("E1_step_4");
     pros::delay(1850);
@@ -161,11 +161,11 @@ std::shared_ptr<AsyncPositionController<double,double>> goalController =
   void E2(){
     profileController->generatePath({
       {0_ft,0_ft,0_deg},
-      {76_in,0_ft,0_deg}},
+      {83_in,0_ft,0_deg}},
       "E2_step_1"
     );
     profileController->setTarget("E2_step_1");
-    pros::delay(1670);
+    pros::delay(2000);
     Clamp.move_relative(-2100, 200); //lower clamp
     pros::delay(850); //wait until clamp is done
     profileController->generatePath({
@@ -192,7 +192,7 @@ std::shared_ptr<AsyncPositionController<double,double>> goalController =
     );
     profileController->setTarget("E2_step_4",true);
     pros::delay(1500);
-    driveAuton->turnAngle(-82_deg);
+    driveAuton->turnAngle(-90_deg);
     //turn -90 degrees
     profileController->generatePath({
       {0_ft,0_ft,0_deg},
@@ -251,6 +251,74 @@ driveauton->moveDistance(-40_in);
 */
 }
 void skills(){
+
+}
+
+void leftSideForklift(){
+  profileController->generatePath({
+    {0_ft,0_ft,0_deg},
+    {120_in,0_ft,0_deg}},
+    "E1_step_1"
+  );
+  profileController->setTarget("E1_step_1");
+  pros::delay(600);
+  ForkliftLeft.move_relative(degForForkLift,100);
+  ForkliftRight.move_relative(degForForkLift,100);
+  pros::delay(2900);
+  Clamp.move_relative(-2200, 200); //lower clamp
+  ForkliftLeft.move_relative(1250,100);
+  ForkliftRight.move_relative(1250,100);
+  pros::delay(1400); //wait until clamp is done
+  driveAuton->turnAngle(-104_deg);
+  profileController->generatePath({
+    {0_ft,0_ft,0_deg},
+    {40_in,0_ft,0_deg}},
+    "E1_step_2"
+  );
+  profileController->setTarget("E1_step_2",true);
+  pros::delay(1000);
+  ForkliftLeft.move_relative(degForForkLiftUp,-100);
+  ForkliftRight.move_relative(degForForkLiftUp,-100);
+  pros::delay(800);
+  driveAuton->turnAngle(-60_deg);
+  profileController->generatePath({
+    {0_ft,0_ft,0_deg},
+    {50_in,0_ft,0_deg}},
+    "E1_step_3"
+  );
+  profileController->setTarget("E1_step_3");
+  pros::delay(2200);
+  /*Clamp.move_relative(1900, 200);
+  pros::delay(600);
+  profileController->generatePath({
+    {0_in,0_ft,0_deg},
+    {50_in,0_ft,0_deg}},
+    "E1_step_4"
+  );
+  profileController->setTarget("E1_step_4",true);
+  pros::delay(1800);
+  driveAuton->turnAngle(-120_deg);
+  //turn -90 degrees
+  profileController->setTarget("E1_step_4");
+  pros::delay(1850);
+  //move e
+  Clamp.move_relative(-degForGoalClamp, 200); //lower clamp
+  pros::delay(900); //wait until clamp is done
+  //clamp alliance
+  conveyorController->setTarget(-165);
+  pros::delay(1);
+  profileController->generatePath({
+    {0_ft,0_ft,0_deg},
+    {42_in,0_ft,0_deg}},
+    "E1_step_6"
+  );
+  profileController->setTarget("E1_step_6",true); //move towads neumogo
+  pros::delay(2500);
+  conveyorController->setTarget(0); //stop conveyor
+  pros::delay(1);
+  //start conveyor and hood
+  Clamp.move_relative(degForGoalClamp, 200); //lower clamp
+  pros::delay(900);*/
 
 }
 

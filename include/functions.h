@@ -14,9 +14,13 @@ const double wheelCircumfrence = 3.25 * M_PI;
 
 const int degForGoalClamp = 2200;
 
+const int degForForkLift = 3000;
+
+const int degForForkLiftUp = 2000;
+
 int countr = 0;
-std::string autons[6] = {"Red1", "Q1", "Q2", "E1", "E2", "Disabled"};
-int size = 6;//*(&autons + 1) - autons;
+std::string autons[7] = {"Red1", "Q1", "Q2", "E1", "E2", "Disabled", "forkLiftThing"};
+int size = 7;//*(&autons + 1) - autons;
 
 void screenPrintString(int e, int o, std::string i){
   master.print(e,o,"%s",i.c_str());
@@ -128,15 +132,6 @@ void forkLiftMovement(bool upOrDown){
   }
 }
 
-double platformMode(double currentMode){
-  if(currentMode == 1){
-    return 0.6;
-  } else if (currentMode == 0.6){
-    return 1;
-  } else {
-    return 0;
-  }
-}
 /*
 //For debugging things
 voisd printOnScreen(){

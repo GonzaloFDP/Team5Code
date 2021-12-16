@@ -3,8 +3,10 @@
 
 
 void initialize() {
+//	ForkliftLeft.move_relative(degForForkLift,100);
+	//ForkliftRight.move_relative(degForForkLift,100);
 	pros::lcd::initialize();
-	screenPrintString(2, 2, "i");
+	screenPrintString(2, 2, "l");
 
 	//pros::lcd::register_btn0_cb(leftBtn);
 	//pros::lcd::register_btn1_cb(centerBtn);
@@ -42,7 +44,8 @@ void autonomous() {
 		 	disabledAuton();
 			break;
      case 6:
-
+		 	leftSideForklift();
+			break;
      case 7:
 
 		 case 8:
@@ -132,6 +135,8 @@ void opcontrol() {
 //	bool convMove;
 
   while (true){
+		master.clear();
+		screenPrintInt(1,1,plt4mMode);
 	//pros::Task my_task(my_task_fn);
 
 //	pros::Task my_task(rings, (void*)ringMove, "ring");
@@ -150,19 +155,17 @@ void opcontrol() {
 		}
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){ //remember to check ports; see if connected
-				ringtakeController->setTarget(-175);//                          to port 12
-		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
-				ringtakeController->setTarget(175);
-		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
-			ringtakeController->setTarget(0);
-			Ringtake.set_brake_mode(MOTOR_BRAKE_COAST);
-			Ringtake.move_velocity(0);
+			if(plt4mMode == 1){
+				plt4mMode = 0.6;
+			} else if (plt4mMode == 0.6){
+				plt4mMode = 1;
 		}
+	}
 // fork lift
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
-			forkLiftMovement(true);
-		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
 			forkLiftMovement(false);
+		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
+			forkLiftMovement(true);
 		} else {
 			ForkliftLeft.set_brake_mode(MOTOR_BRAKE_HOLD);
 			ForkliftRight.set_brake_mode(MOTOR_BRAKE_HOLD);
@@ -182,7 +185,7 @@ void opcontrol() {
 		double power = master.get_analog(ANALOG_LEFT_Y);
 		double turn = master.get_analog(ANALOG_RIGHT_X);
 
-		opDriver((power+turn)*1.6, (power - turn)*1.6);
+		opDriver(((power+turn)*1.6)*plt4mMode, ((power - turn)*1.6)*plt4mMode);
 
 		//Clamp
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
