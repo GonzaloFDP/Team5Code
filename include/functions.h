@@ -19,8 +19,8 @@ const int degForForkLift = 3000;
 const int degForForkLiftUp = 2000;
 
 int countr = 0;
-std::string autons[7] = {"Red1", "Q1", "Q2", "E1", "E2", "Disabled", "forkLiftThing"};
-int size = 7;//*(&autons + 1) - autons;
+std::string autons[8] = {"Red1", "Q1", "Q2", "E1", "E2", "Disabled", "forkLiftThing","Q3"};
+int size = 8;//*(&autons + 1) - autons;
 
 void screenPrintString(int e, int o, std::string i){
   master.print(e,o,"%s",i.c_str());

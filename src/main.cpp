@@ -47,9 +47,11 @@ void autonomous() {
 		 	leftSideForklift();
 			break;
      case 7:
-
+		  Q3();
+			break;
 		 case 8:
 		 	skills();
+			break;
    }
 
 }
