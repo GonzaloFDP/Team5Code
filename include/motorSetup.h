@@ -1,17 +1,15 @@
 #include "../include/main.h"
 
-
 //Ports
-#define FR_MOTOR 11 //10
-#define FL_MOTOR 20 //1
-#define BR_MOTOR 1 //20
-#define BL_MOTOR 10 //11
+#define FR_MOTOR 10
+#define FL_MOTOR 20
+#define BR_MOTOR 1
+#define BL_MOTOR 11
 #define RINGTAKE 15
-#define GOALCLAMP 5
+#define GOALCLAMP 2
 #define CONVEYOR 14
-#define FOURBAR 19
-#define FORKLIFTLEFT 18
-#define FORKLIFTRIGHT 17
+#define FOURBAR 3
+#define FORKLIFT 4
 
 const double ticksPerDeg = 900/360;
 //200*4.125*pi/60 * sqrt(2), = 60
@@ -34,20 +32,19 @@ ControllerButton down(ControllerDigital::down);
 */
 
 //pros::Controller control (E_CONTROLLER_MASTER);
-pros::Motor Clamp(GOALCLAMP, pros::E_MOTOR_GEARSET_18);
+//pros::Motor Clamp(GOALCLAMP, pros::E_MOTOR_GEARSET_18);
 
-pros::Motor FLmotor(FL_MOTOR);
+pros::Motor FLmotor(FL_MOTOR, false);
 pros::Motor FRmotor(FR_MOTOR, true);
-pros::Motor BLmotor(BL_MOTOR);
+pros::Motor BLmotor(BL_MOTOR, false);
 pros::Motor BRmotor(BR_MOTOR, true);
 
 pros::Motor Ringtake(RINGTAKE);
-
+pros::Motor Clamp(GOALCLAMP, pros::E_MOTOR_GEARSET_36);
 pros::Motor Conveyor(CONVEYOR);
 
 pros::Motor Fourbar(FOURBAR, pros::E_MOTOR_GEARSET_36);
-pros::Motor ForkliftLeft(FORKLIFTLEFT, pros::E_MOTOR_GEARSET_36, true);
-pros::Motor ForkliftRight(FORKLIFTRIGHT, pros::E_MOTOR_GEARSET_36);
+pros::Motor Forklift(FORKLIFT, pros::E_MOTOR_GEARSET_36, true);
 /*
 pros::Motor LeftIntake(LIPort, false);
 pros::Motor RightIntake(RIPort, true);

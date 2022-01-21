@@ -12,14 +12,14 @@ std::shared_ptr<AsyncVelocityController<double,double>> ringtakeController =
 //Useful Constants
 const double wheelCircumfrence = 3.25 * M_PI;
 
-const int degForGoalClamp = 2200;
+const int degForGoalClamp = 740;
 
-const int degForForkLift = 3000;
+const int degForForkLift = 2000;
 
 const int degForForkLiftUp = 2000;
 
 int countr = 0;
-std::string autons[8] = {"Red1", "Q1", "Q2", "E1", "E2", "Disabled", "forkLiftThing","Q3"};
+std::string autons[8] = {"Red1", "rightSideWPRingtake", "leftSideWPNoRingtake", "rightSideNeumogoWPRingtake", "leftSideForklift", "Disabled", "forkLiftThing","Q3"};
 int size = 8;//*(&autons + 1) - autons;
 
 void screenPrintString(int e, int o, std::string i){
@@ -78,9 +78,9 @@ void opDriver(double left, double right){
 
 void goalClampMovement(bool upOrDown){
   if (upOrDown){
-    Clamp.move_velocity(200);//up
+    Clamp.move_velocity(100);//down
   } else if (upOrDown == false){
-    Clamp.move_velocity(-200);//down
+    Clamp.move_velocity(-100);//up
   } else {
     Clamp.move_velocity(0);
   }
@@ -105,7 +105,7 @@ void conveyorMovement(bool upOrDown){
     conveyorController->setTarget(0);
   }
 }
-/* four bar
+
 void fourBarMovement(bool upOrDown){
   if (upOrDown){
     Fourbar.move_velocity(100); //up
@@ -115,20 +115,17 @@ void fourBarMovement(bool upOrDown){
     Fourbar.move_velocity(0);
   }
 }
-*/
+
 // fork lift
 void forkLiftMovement(bool upOrDown){
   if(upOrDown){
-    ForkliftLeft.move_velocity(100);
-    ForkliftRight.move_velocity(100);
+    Forklift.move_voltage(7000);
   }
   else if(upOrDown == false){
-    ForkliftLeft.move_velocity(-100);
-    ForkliftRight.move_velocity(-100);
+    Forklift.move_voltage(-7000);
   }
   else{
-    ForkliftLeft.move_velocity(0);
-    ForkliftRight.move_velocity(0);
+    Forklift.move_voltage(0);
   }
 }
 

@@ -35,8 +35,47 @@ std::shared_ptr<AsyncPositionController<double,double>> goalController =
   AsyncPosControllerBuilder()
   .withMotor(5)
   .build();
+//new auton - gets neutral and alliance goal (right side)
+  void rightAutonNoRingtake(){
+    profileController -> generatePath({
+      {0_in,0_in,0_deg},
+      {40_in,0_in,0_deg}},
+      "auton_step_1"
+    );
+    profileController -> generatePath({
+      {0_in,0_in,0_deg},
+      {25_in,0_in,0_deg}},
+      "auton_step_2"
+    );
+    //auton step 1
+    profileController->setTarget("auton_step_1");
+    pros::delay(2000);
+    //get neutral goal with fourbar
+    Forklift.move_relative(degForForkLift+1250,65);
+    pros::delay(1700);
+    Forklift.move_relative(degForForkLiftUp, 100);
+    pros::delay(1000);
+    //turn to the left
+    driveAuton->turnAngle(-45_deg);
+    pros::delay(1200);
+    //lower clamp
+    profileController->setTarget("auton_step_2",true);
+    pros::delay(1300);
+    Clamp.move_relative(-degForGoalClamp, 100);
+    pros::delay(1700);
+    //auton step 2
+    driveAuton->turnAngle(45_deg);
+    pros::delay(1200);
+    profileController->setTarget("auton_step_2",true);
+    pros::delay(1300);
+    Clamp.move_relative(degForGoalClamp, 100);
+    pros::delay(1600);
 
-  void Q3(){
+  }
+
+  void leftSideWPNoRingtake(){
+
+    //left side WP only
 
     profileController -> generatePath({
       {0_in,0_in,0_deg},
@@ -46,21 +85,19 @@ std::shared_ptr<AsyncPositionController<double,double>> goalController =
 
     profileController->setTarget("Q3_step_1");
     pros::delay(700);
-    Clamp.move_relative(-2030,200);
-    Clamp.move_relative(-2030,200);
+    Clamp.move_relative(1030,100);
+    Clamp.move_relative(1030,100);
     pros::delay(700);
-    Clamp.move_relative(2030,200);
-    Clamp.move_relative(2030,200);
+    Clamp.move_relative(-1030,100);
+    Clamp.move_relative(-1030,100);
     pros::delay(700);
     profileController->setTarget("Q3_step_1",true);
     pros::delay(700);
-
-
   }
 
 
 
-  void Q1(){
+  void rightSideWPRingtake(){
 
     /*driveAuton->moveDistance(7_in);
     goalController->setTarget(-250);
@@ -90,7 +127,7 @@ std::shared_ptr<AsyncPositionController<double,double>> goalController =
 
   }
 
-  void Q2(){
+  /*void Q2(){
 
 
     profileController->generatePath({
@@ -103,9 +140,9 @@ std::shared_ptr<AsyncPositionController<double,double>> goalController =
     pros::delay(700);
     Clamp.move_relative(-degForGoalClamp, 200); //lower clamp
     pros::delay(1000); //wait until clamp is done
-    conveyorController->setTarget(200); //start conveyor at max speed
-    pros::delay(1500);
-    conveyorController->setTarget(0);
+    //conveyorController->setTarget(200); //start conveyor at max speed
+    //pros::delay(1500);
+    //conveyorController->setTarget(0);
     Clamp.move_relative(degForGoalClamp, 200); //lower clamp
     pros::delay(3200); //wait until clamp is done
     profileController->generatePath({
@@ -116,9 +153,12 @@ std::shared_ptr<AsyncPositionController<double,double>> goalController =
     profileController->setTarget("Q2_step_3",true);
     pros::delay(1500);
 
-  }
+  }*/
 
   void E1(){
+
+    //left side neumogo DONT USE
+
     profileController->generatePath({
       {0_ft,0_ft,0_deg},
       {93_in,0_ft,0_deg}},
@@ -160,8 +200,8 @@ std::shared_ptr<AsyncPositionController<double,double>> goalController =
     Clamp.move_relative(-degForGoalClamp, 200); //lower clamp
     pros::delay(900); //wait until clamp is done
     //clamp alliance
-    conveyorController->setTarget(-165);
-    pros::delay(1);
+    //conveyorController->setTarget(-165);
+    //pros::delay(1);
     profileController->generatePath({
       {0_ft,0_ft,0_deg},
       {42_in,0_ft,0_deg}},
@@ -169,8 +209,8 @@ std::shared_ptr<AsyncPositionController<double,double>> goalController =
     );
     profileController->setTarget("E1_step_6",true); //move towads neumogo
     pros::delay(2500);
-    conveyorController->setTarget(0); //stop conveyor
-    pros::delay(1);
+    //conveyorController->setTarget(0); //stop conveyor
+    //pros::delay(1);
     //start conveyor and hood
     Clamp.move_relative(degForGoalClamp, 200); //lower clamp
     pros::delay(900);
@@ -182,7 +222,9 @@ std::shared_ptr<AsyncPositionController<double,double>> goalController =
 
   }
 
-  void E2(){
+  void rightSideNeumogoWPRingtake(){
+
+    //right side neumogo and AWP OLD
     profileController->generatePath({
       {0_ft,0_ft,0_deg},
       {83_in,0_ft,0_deg}},
@@ -274,37 +316,68 @@ delay(1000);
 driveauton->moveDistance(-40_in);
 */
 }
-void skills(){
-
+void skillsNoBoardingLeftSide(){
+  // get the red goal with the lift clamp
+  // turn left so forklift side is facing the rest of field
+  // go foward and push neutral goal with the forklift side to the opposing home zone wall and back up a bit - 20 pts
+  // turn right and drop red alliance goal - 20 pts
+  // turn left (in terms of traction wheels)
+  // push blue goal with forklift side to original home zone - 20 pts
+  // turn left (in terms of traction wheels)
+  // grab neutral goal with goal clamp
+  // turn left and open forkLift
+  // turn right and push neutral goal
+  // move to blue home zone and drop neutral goal in corner while backing out forkLift - 20 pts
+  // lift forklift up while turning right 180 degrees so goal clamp faces where forklift was
+  // turn right, move forward, and grab blue goal with goal clamp - 20 pts
+  // move backwards, turn 180 degrees and drop alliance goal - 20 pts
+  // turn left, grab last alliance goal with goal clamp, turn left again, move straight, and drop goal in other home zone - 20 pts
 }
-
+void skillsBoardingRightSide(){
+  // start facing red alliance goal on blue home zone
+  // clamp alliance goal
+  // move left so forklift (closed) facing the neutral goal
+  // move backward so forklift (closed) pushes neutral mobile goal into home zone - 20 pts
+  // move forward a bit
+  // move 270 degrees right so the side with the alliance goal clamped is facing to the left of the neutral goal
+  // move backwards and drop alliance goal - 20 pts
+  // move left and align with middle tall neutral mogo
+  // move backwards with closed forklift so neutral mobile gets pushed into blue home zone - 20 pts
+  // turn right to clamp on smol neutral mobile goal
+  // turn right to face blue home zone
+  // align diagonally to end tile to board
+  // move forward so goal is in corner
+  // move left to align with paltform
+  // board on half speed platform mode
+}
 void leftSideForklift(){
+  //done
+  Clamp.move_relative(-1000,100);
   profileController->generatePath({
     {0_ft,0_ft,0_deg},
-    {120_in,0_ft,0_deg}},
+    {125_in,0_ft,0_deg}},
     "LeftSide_step_1"
   );
   profileController->setTarget("LeftSide_step_1");
   pros::delay(600);
-  ForkliftLeft.move_relative(degForForkLift,100);
-  ForkliftRight.move_relative(degForForkLift,100);
-  pros::delay(1700);
-  Clamp.move_relative(-degForGoalClamp, 200); //lower clamp
-  ForkliftLeft.move_relative(1250,100);
-  ForkliftRight.move_relative(1250,100);
-  pros::delay(1000); //wait until clamp is done
-  driveAuton->turnAngle(-115_deg);
+  Forklift.move_relative(degForForkLift,100);
+  pros::delay(1900);
+  Clamp.move_relative(degForGoalClamp, 100); //lower clamp
+  pros::delay(500);
+  Fourbar.move_relative(450,100);
+  Forklift.move_relative(1850,100);
+  pros::delay(1300); //wait until clamp is done
+  driveAuton->turnAngle(-132_deg);
   profileController->generatePath({
     {0_ft,0_ft,0_deg},
-    {40_in,0_ft,0_deg}},
+    {60_in,0_ft,0_deg}},
     "LeftSide_step_2"
   );
   profileController->setTarget("LeftSide_step_2",true);
-  pros::delay(1000);
-  ForkliftLeft.move_relative(-2200,80);
-  ForkliftRight.move_relative(-2200,80);
-  pros::delay(600);
-  driveAuton->turnAngle(-75_deg);
+  pros::delay(2300);
+  Forklift.move_relative(-1000,80);
+  pros::delay(900);
+  driveAuton->turnAngle(-90_deg);
   profileController->generatePath({
     {0_ft,0_ft,0_deg},
     {140_in,0_ft,0_deg}},
@@ -322,7 +395,6 @@ void middleMogo(){
   );
   profileController->setTarget("middleMogo step 1");
 }
-
 void Red1(){
  FRmotor.move_relative(distanceToTicks(20), MAXVELOCITY);
  FLmotor.move_relative(distanceToTicks(20), MAXVELOCITY);
@@ -330,10 +402,10 @@ void Red1(){
  BRmotor.move_relative(distanceToTicks(20), MAXVELOCITY);
  pros::delay(2000);
  Clamp.move_relative(400, MAXVELOCITY);
- Conveyor.move_velocity(MAXVELOCITY);
+ //Conveyor.move_velocity(MAXVELOCITY);
  pros::delay(2000);
- Conveyor.set_brake_mode(MOTOR_BRAKE_COAST);
- Conveyor.move_velocity(0);
+ //Conveyor.set_brake_mode(MOTOR_BRAKE_COAST);
+ //Conveyor.move_velocity(0);
  FRmotor.move_relative(distanceToTicks(20), -1*MAXVELOCITY);
  FLmotor.move_relative(distanceToTicks(20), -1*MAXVELOCITY);
  BLmotor.move_relative(distanceToTicks(20), -1*MAXVELOCITY);

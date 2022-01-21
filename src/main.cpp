@@ -6,14 +6,14 @@ void initialize() {
 //	ForkliftLeft.move_relative(degForForkLift,100);
 	//ForkliftRight.move_relative(degForForkLift,100);
 	pros::lcd::initialize();
-	screenPrintString(2, 2, "l");
+	screenPrintString(2, 2, "o");
 
 	//pros::lcd::register_btn0_cb(leftBtn);
 	//pros::lcd::register_btn1_cb(centerBtn);
 	//pros::lcd::register_btn2_cb(rightBtn);
 
 	Clamp.set_brake_mode(MOTOR_BRAKE_HOLD);
-	Fourbar.set_brake_mode(MOTOR_BRAKE_HOLD);
+	//Fourbar.set_brake_mode(MOTOR_BRAKE_HOLD);
   autonSelector();
 
 	//autonSelector();
@@ -29,16 +29,16 @@ void autonomous() {
 		 	Red1();
 			break;
      case 1:
-		 	Q1();
+		 	rightSideWPRingtake();
 			break;
      case 2:
-		  Q2();
+		  leftSideWPNoRingtake();
 			break;
      case 3:
-		  E1();
+		  rightSideNeumogoWPRingtake();
 			break;
      case 4:
-		 	E2();
+		 	leftSideForklift();
 			break;
      case 5:
 		 	disabledAuton();
@@ -47,10 +47,10 @@ void autonomous() {
 		 	leftSideForklift();
 			break;
      case 7:
-		  Q3();
+		  skillsNoBoardingLeftSide();
 			break;
 		 case 8:
-		 	skills();
+		 	skillsBoardingRightSide();
 			break;
    }
 
@@ -72,7 +72,16 @@ void autonomous() {
 	pros::delay(200);
 }*/
 
+void my_task_fn(void* param) {
+	std::string dt ="Drivetrain" + std::to_string( (FLmotor.get_temperature()+FRmotor.get_temperature() + BLmotor.get_temperature()+ BRmotor.get_temperature())/4);
+	std::string lift ="Lift" + std::to_string( (Fourbar.get_temperature()));
+	screenPrintString(1, 1, dt.c_str());
+	screenPrintString(2, 1, lift.c_str());
+		pros::delay(200);
+}
+
 void opcontrol() {
+	master.clear();
 	//autonomous();
 	//okapi fancy stuff
 
@@ -137,9 +146,8 @@ void opcontrol() {
 //	bool convMove;
 
   while (true){
-		master.clear();
-		screenPrintInt(1,1,plt4mMode);
-	//pros::Task my_task(my_task_fn);
+		screenPrintInt(0,1,plt4mMode);
+		pros::Task my_task(my_task_fn);
 
 //	pros::Task my_task(rings, (void*)ringMove, "ring");
 //	pros::Task the_task(conveyor, (void*)convMove, "conveyor");
@@ -169,39 +177,40 @@ void opcontrol() {
 		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
 			forkLiftMovement(true);
 		} else {
-			ForkliftLeft.set_brake_mode(MOTOR_BRAKE_HOLD);
-			ForkliftRight.set_brake_mode(MOTOR_BRAKE_HOLD);
-			ForkliftLeft.move_velocity(0);
-			ForkliftRight.move_velocity(0);
+			Forklift.set_brake_mode(MOTOR_BRAKE_HOLD);
+			Forklift.move_voltage(0);
 		}
-	/*	four bar
-	if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){ //remember to check ports; see if connected
+
+	if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){ //remember to check ports; see if connected
 		fourBarMovement(true); //down
-	} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
+	} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
 		fourBarMovement(false); //up
 	} else {
 		Fourbar.set_brake_mode(MOTOR_BRAKE_HOLD);
 		Fourbar.move_velocity(0);
 	}
-*/
+
 		double power = master.get_analog(ANALOG_LEFT_Y);
 		double turn = master.get_analog(ANALOG_RIGHT_X);
 
 		opDriver(((power+turn)*1.6)*plt4mMode, ((power - turn)*1.6)*plt4mMode);
 
 		//Clamp
-		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
+		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_X)){
 			goalClampMovement(false);
-		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
+		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_B)){
 			goalClampMovement(true);
 		} else {
 			Clamp.set_brake_mode(MOTOR_BRAKE_HOLD);
 			Clamp.move_velocity(0);
 		}
 
+
+
 		//Auton tester
 	/*	if(master.get_digital(pros::E_CONTROLLER_DIGITAL_B)){
 			autonomous();
 		}*/
+		pros::delay(20);
 	}
 }
