@@ -76,6 +76,7 @@ std::shared_ptr<AsyncPositionController<double,double>> goalController =
   void leftSideWPNoRingtake(){
 
     //left side WP only
+    //done
 
     profileController -> generatePath({
       {0_in,0_in,0_deg},
@@ -85,11 +86,11 @@ std::shared_ptr<AsyncPositionController<double,double>> goalController =
 
     profileController->setTarget("Q3_step_1");
     pros::delay(700);
-    Clamp.move_relative(1030,100);
-    Clamp.move_relative(1030,100);
+    Clamp.move_relative(730,80);
+    Clamp.move_relative(730,80);
     pros::delay(700);
-    Clamp.move_relative(-1030,100);
-    Clamp.move_relative(-1030,100);
+    Clamp.move_relative(-730,80);
+    Clamp.move_relative(-730,80);
     pros::delay(700);
     profileController->setTarget("Q3_step_1",true);
     pros::delay(700);
@@ -123,6 +124,34 @@ std::shared_ptr<AsyncPositionController<double,double>> goalController =
     pros::delay(3000);
     conveyorController->setTarget(0); //stop conveyor
     Clamp.move_relative(degForGoalClamp,200);
+    pros::delay(1800);
+
+  }
+
+  void rightSideWPNoRingtake(){
+
+    /*driveAuton->moveDistance(7_in);
+    goalController->setTarget(-250);
+    driveAuton->turnAngleAsync(30_deg);
+    Conveyor.move_velocity(200);
+    driveAuton->waitUntilSettled();
+    Conveyor.move_velocity(0);
+    driveAuton->moveDistanceAsync(-10_in);*/
+    profileController -> generatePath({
+      {0_ft, 0_ft, 0_deg},
+      {19_in, 0_ft, 0_deg}},
+      "Q1_step_1" //starting position
+    );
+
+
+
+    profileController->setTarget("Q1_step_1"); //move towards alliance goal
+    pros::delay(1100); // wait 800 ms
+    Clamp.move_relative(degForGoalClamp, 100); //lower clamp
+    pros::delay(700); //wait until clamp is done
+    profileController->setTarget("Q1_step_1",true); //move towads neumogo
+    pros::delay(2000);
+    Clamp.move_relative(-degForGoalClamp,100);
     pros::delay(1800);
 
   }
@@ -365,9 +394,9 @@ void leftSideForklift(){
   Clamp.move_relative(degForGoalClamp, 100); //lower clamp
   pros::delay(500);
   Fourbar.move_relative(450,100);
-  Forklift.move_relative(1850,100);
+  Forklift.move_relative(2000,100);
   pros::delay(1300); //wait until clamp is done
-  driveAuton->turnAngle(-132_deg);
+  driveAuton->turnAngle(-129_deg);
   profileController->generatePath({
     {0_ft,0_ft,0_deg},
     {60_in,0_ft,0_deg}},
@@ -380,11 +409,11 @@ void leftSideForklift(){
   driveAuton->turnAngle(-90_deg);
   profileController->generatePath({
     {0_ft,0_ft,0_deg},
-    {140_in,0_ft,0_deg}},
+    {180_in,0_ft,0_deg}},
     "LeftSide_step_3"
   );
   profileController->setTarget("LeftSide_step_3");
-  pros::delay(6700);
+  pros::delay(8000);
 }
 
 void middleMogo(){

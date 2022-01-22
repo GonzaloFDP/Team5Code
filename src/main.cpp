@@ -6,7 +6,7 @@ void initialize() {
 //	ForkliftLeft.move_relative(degForForkLift,100);
 	//ForkliftRight.move_relative(degForForkLift,100);
 	pros::lcd::initialize();
-	screenPrintString(2, 2, "o");
+	screenPrintString(2, 2, "w");
 
 	//pros::lcd::register_btn0_cb(leftBtn);
 	//pros::lcd::register_btn1_cb(centerBtn);
@@ -26,7 +26,7 @@ void competition_initialize() {}
 void autonomous() {
   switch(countr){
      case 0:
-		 	Red1();
+		 	rightSideWPNoRingtake();
 			break;
      case 1:
 		 	rightSideWPRingtake();

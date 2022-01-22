@@ -19,7 +19,7 @@ const int degForForkLift = 2000;
 const int degForForkLiftUp = 2000;
 
 int countr = 0;
-std::string autons[8] = {"Red1", "rightSideWPRingtake", "leftSideWPNoRingtake", "rightSideNeumogoWPRingtake", "leftSideForklift", "Disabled", "forkLiftThing","Q3"};
+std::string autons[8] = {"rightSideWPNoRingtake", "rightSideWPRingtake", "leftSideWPNoRingtake", "rightSideNeumogoWPRingtake", "leftSideForklift", "Disabled", "forkLiftThing","Q3"};
 int size = 8;//*(&autons + 1) - autons;
 
 void screenPrintString(int e, int o, std::string i){
