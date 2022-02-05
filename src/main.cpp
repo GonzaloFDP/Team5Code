@@ -6,14 +6,15 @@ void initialize() {
 //	ForkliftLeft.move_relative(degForForkLift,100);
 	//ForkliftRight.move_relative(degForForkLift,100);
 	pros::lcd::initialize();
-	screenPrintString(2, 2, "w");
+	screenPrintString(2, 2, "r");
 
 	//pros::lcd::register_btn0_cb(leftBtn);
 	//pros::lcd::register_btn1_cb(centerBtn);
 	//pros::lcd::register_btn2_cb(rightBtn);
 
 	Clamp.set_brake_mode(MOTOR_BRAKE_HOLD);
-	//Fourbar.set_brake_mode(MOTOR_BRAKE_HOLD);
+	Fourbar.set_brake_mode(MOTOR_BRAKE_HOLD);
+	Forklift.set_brake_mode(MOTOR_BRAKE_HOLD);
   autonSelector();
 
 	//autonSelector();
@@ -29,7 +30,7 @@ void autonomous() {
 		 	rightSideWPNoRingtake();
 			break;
      case 1:
-		 	rightSideWPRingtake();
+		 	soloWP();
 			break;
      case 2:
 		  leftSideWPNoRingtake();
@@ -44,13 +45,13 @@ void autonomous() {
 		 	disabledAuton();
 			break;
      case 6:
-		 	leftSideForklift();
+		 	leftSideNeumogo();
 			break;
      case 7:
-		  skillsNoBoardingLeftSide();
+		  officialSkills();
 			break;
 		 case 8:
-		 	skillsBoardingRightSide();
+		 	disabled();
 			break;
    }
 

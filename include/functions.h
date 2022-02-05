@@ -18,8 +18,12 @@ const int degForForkLift = 2000;
 
 const int degForForkLiftUp = 2000;
 
+int fourbarHeight [3] = {0,1000,4000};
+
+std::string egg = "egg";
+
 int countr = 0;
-std::string autons[8] = {"rightSideWPNoRingtake", "rightSideWPRingtake", "leftSideWPNoRingtake", "rightSideNeumogoWPRingtake", "leftSideForklift", "Disabled", "forkLiftThing","Q3"};
+std::string autons[8] = {"rightSideWPNoRingtake", "soloWP", "leftSideWPNoRingtake", "rightSideNeumogoWPRingtake", "leftSideForklift", "Disabled", "leftSideNeumogo","officialSkills"};
 int size = 8;//*(&autons + 1) - autons;
 
 void screenPrintString(int e, int o, std::string i){
@@ -69,6 +73,17 @@ void autonSelector(){
 
 void opDriver(double left, double right){
   //Calculates speed of wheels for driver control
+  if (left > 200){
+    left = 200;
+  } else if (left<-200){
+    left = -200;
+  }
+
+  if (right>200){
+    right=200;
+  } else if (right < -200){
+    right = -200;
+  }
 	FLmotor.move_velocity(left);
 	FRmotor.move_velocity(right);
 	BLmotor.move_velocity(left);
@@ -119,13 +134,13 @@ void fourBarMovement(bool upOrDown){
 // fork lift
 void forkLiftMovement(bool upOrDown){
   if(upOrDown){
-    Forklift.move_voltage(7000);
+    Forklift.move_velocity(100);
   }
   else if(upOrDown == false){
-    Forklift.move_voltage(-7000);
+    Forklift.move_velocity(-100);
   }
   else{
-    Forklift.move_voltage(0);
+    Forklift.move_velocity(0);
   }
 }
 
