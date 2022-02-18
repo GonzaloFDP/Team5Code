@@ -6,13 +6,12 @@ void initialize() {
 //	ForkliftLeft.move_relative(degForForkLift,100);
 	//ForkliftRight.move_relative(degForForkLift,100);
 	pros::lcd::initialize();
-	screenPrintString(2, 2, "r");
+	screenPrintString(2, 2, "y");
+	Clamp.tare_position();
 
 	//pros::lcd::register_btn0_cb(leftBtn);
 	//pros::lcd::register_btn1_cb(centerBtn);
 	//pros::lcd::register_btn2_cb(rightBtn);
-
-	Clamp.set_brake_mode(MOTOR_BRAKE_HOLD);
 	Fourbar.set_brake_mode(MOTOR_BRAKE_HOLD);
 	Forklift.set_brake_mode(MOTOR_BRAKE_HOLD);
   autonSelector();
@@ -42,7 +41,7 @@ void autonomous() {
 		 	leftSideForklift();
 			break;
      case 5:
-		 	disabledAuton();
+		 	test();
 			break;
      case 6:
 		 	leftSideNeumogo();
@@ -84,60 +83,6 @@ void my_task_fn(void* param) {
 void opcontrol() {
 	master.clear();
 	//autonomous();
-	//okapi fancy stuff
-
-	//Chassis Controller - lets us drive the robot around with open- or closed-loop Controller
-	std::shared_ptr<ChassisController> drive =
-		ChassisControllerBuilder()
-		.withMotors(1,-10,11,-20)
-//haha funny meme
-		//Green gearset, 4 in wheel diam, 11.5 in wheel track
-		.withDimensions(AbstractMotor::gearset::green, {{4_in, 11.5_in}, imev5GreenTPR})
-		.build();
-/*-------------------------------------------Tank-Okapi---------------------------------------------------------------------
-
-		//Joystick values -1 -> 1
-		Controller controller;
-		while(true){
-			drive->getModel()->tank(controller.getAnalog(ControllerAnalog::leftY), controller.getAnalog(ControllerAnalog::rightY));
-			pros::delay(10);
-		}*/
-
-/*-------------------------------------------Arcade-Okapi-------------------------------------------------------------------
-
-		//Joystick values -1 -> 1
-		Controller controller;
-		while(true){
-		drive->getModel()->arcade(controller.getAnalog(ControllerAnalog::leftY), controller.getAnalog(ControllerAnalog::rightX));
-		pros::delay(10);
-	}*/
-
-/*-------------------------------------------Arm-Control-------------------------------------------------------------------
-
-	ADIButton armLimitSwitch('H');
-	Motor armMotor(-8);
-	ControllerButton armUpButton(ControllerDigital::A);
-	ControllerButton armDownButton(ControllerDigital::B);
-	ControllerButton autonButton(ControllerDigital::X);
-	//Switch control
-	if(armLimitSwitch.isPressed()) {
-		armMotor.moveVelocity(0);
-	} else {
-		//Just keep going idk man
-		if (armUpButton.isPressed()){
-			armMotor.moveVoltage(12000);
-		} else if (armDownButton.isPressed()){
-			armMotor.moveVoltage(-12000);
-		} else {
-			armMotor.moveVoltage(0);
-		}
-	}
-
-	//haha funnie auton stuff
-	if(autonButton.changedToPressed()){
-		drive->moveDistance(20_in);
-		drive->turnAngle(90_deg);
-	}*/
 
 	double plt4mMode = 1;
 	master.clear();

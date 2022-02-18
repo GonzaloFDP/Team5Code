@@ -12,7 +12,7 @@ std::shared_ptr<AsyncVelocityController<double,double>> ringtakeController =
 //Useful Constants
 const double wheelCircumfrence = 3.25 * M_PI;
 
-const int degForGoalClamp = 740;
+const int degForGoalClamp = 300;
 
 const int degForForkLift = 2000;
 
@@ -23,7 +23,7 @@ int fourbarHeight [3] = {0,1000,4000};
 std::string egg = "egg";
 
 int countr = 0;
-std::string autons[8] = {"rightSideWPNoRingtake", "soloWP", "leftSideWPNoRingtake", "rightSideNeumogoWPRingtake", "leftSideForklift", "Disabled", "leftSideNeumogo","officialSkills"};
+std::string autons[8] = {"rightSideWPNoRingtake", "soloWP", "leftSideWPNoRingtake", "rightSideNeumogoWPRingtake", "leftSideForklift", "test", "leftSideNeumogo","officialSkills"};
 int size = 8;//*(&autons + 1) - autons;
 
 void screenPrintString(int e, int o, std::string i){
@@ -39,6 +39,11 @@ double distanceToTicks(double distance){
   ticks /= (wheelCircumfrence*3);
   ticks *= 900;
   return ticks;
+}
+
+void autonClamp(int value){
+  Clamp.move_absolute(40, 100*value);
+  pros::delay(200);
 }
 
 void autonSelector(){

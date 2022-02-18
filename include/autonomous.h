@@ -10,14 +10,14 @@ std::shared_ptr<ChassisController> driveAuton = ChassisControllerBuilder()
     .withMotors({FL_MOTOR,BL_MOTOR},{FR_MOTOR,BR_MOTOR})
     .withGains(
     {0.0021, 0.0, 0.0001}, //distance gains
-    {0.001,0.0, 0.0001} //turn gains
+    {0.002,0.0, 0.0016} //turn gains
     )
     .withMaxVelocity(200)
     .withDerivativeFilters(
       std::make_unique<AverageFilter<3>>()
     )
     // Green gearset, 4 in wheel diam, 11.5 in wheel track
-    .withDimensions(AbstractMotor::gearset::green, {{3.25_in, 14.5_in}, imev5GreenTPR})
+    .withDimensions(AbstractMotor::gearset::green, {{4.88_in, 14.5_in}, imev5GreenTPR})
     .withOdometry()
     .buildOdometry();
 
@@ -80,18 +80,16 @@ std::shared_ptr<AsyncPositionController<double,double>> goalController =
 
     profileController -> generatePath({
       {0_in,0_in,0_deg},
-      {16_in,0_in,0_deg}},
+      {30_in,0_in,0_deg}},
       "Q3_step_1"
     );
 
     profileController->setTarget("Q3_step_1");
     pros::delay(900);
-    Clamp.move_relative(730,80);
-    Clamp.move_relative(730,80);
-    pros::delay(700);
-    Clamp.move_relative(-730,80);
-    Clamp.move_relative(-730,80);
-    pros::delay(700);
+    Clamp.move_relative(degForGoalClamp, 100);
+    pros::delay(600);
+    Clamp.move_relative(-degForGoalClamp, 100);
+    pros::delay(200);
     profileController->setTarget("Q3_step_1",true);
     pros::delay(900);
   }
@@ -128,6 +126,11 @@ std::shared_ptr<AsyncPositionController<double,double>> goalController =
 
   }
 
+  void test(){
+    Clamp.move_relative(260, 100);
+    pros::delay(200);
+  }
+
   void rightSideWPNoRingtake(){
 
     /*driveAuton->moveDistance(7_in);
@@ -150,12 +153,12 @@ std::shared_ptr<AsyncPositionController<double,double>> goalController =
 
     profileController->setTarget("Q1_step_1");
     pros::delay(1000);
-    Clamp.move_relative(1100,100);
-    pros::delay(700);
+    Clamp.move_relative(degForGoalClamp, -100);
+    pros::delay(200);
     profileController->setTarget("Q1_step_2",true); //move towads neumogo
     pros::delay(2000);
-    Clamp.move_relative(-1100,100);
-    pros::delay(1800);
+    Clamp.move_relative(-degForGoalClamp, 100);
+    pros::delay(200);
 
   }
 
@@ -264,7 +267,7 @@ std::shared_ptr<AsyncPositionController<double,double>> goalController =
     );
     profileController->setTarget("E2_step_1");
     pros::delay(2000);
-    Clamp.move_relative(-2100, 200); //lower clamp
+    Clamp.move_relative(degForGoalClamp, 200); //lower clamp
     pros::delay(850); //wait until clamp is done
     profileController->generatePath({
       {0_ft,0_ft,0_deg},
@@ -458,13 +461,18 @@ void soloWP(){
   );
   profileController -> generatePath({
     {0_in,0_in,0_deg},
-    {120_in,0_in,0_deg}},
+    {18_in,0_in,0_deg}},
     "soloWP_step_2"
   );
   profileController -> generatePath({
     {0_in,0_in,0_deg},
-    {65_in,0_in,0_deg}},
+    {185_in,0_in,0_deg}},
     "soloWP_step_3"
+  );
+  profileController -> generatePath({
+    {0_in,0_in,0_deg},
+    {65_in,0_in,0_deg}},
+    "soloWP_step_4"
   );
 
   profileController->setTarget("soloWP_step_1", true);
@@ -474,18 +482,22 @@ void soloWP(){
   Forklift.move_relative(-2000,80);
   profileController->setTarget("soloWP_step_1");
   pros::delay(1800);
-  driveAuton->turnAngle(-160_deg);
-  profileController->setTarget("soloWP_step_1",true);
-  pros::delay(2500);
-  driveAuton->turnAngle(-160_deg);
-  profileController->setTarget("soloWP_step_2");
-  pros::delay(6000);
+  driveAuton->turnAngle(-105_deg);
+  profileController->setTarget("soloWP_step_2",true);
+  pros::delay(2000);
+  driveAuton->turnAngle(-110_deg);
+  profileController->setTarget("soloWP_step_3");
+  pros::delay(4000);
   Clamp.move_relative(1100,100);
   pros::delay(300);
-  profileController->setTarget("soloWP_step_3", true);
+  profileController->setTarget("soloWP_step_4", true);
+  pros::delay(2000);
+  Clamp.move_relative(-1100,50);
   pros::delay(1500);
-  Clamp.move_relative(-1100,100);
-  pros::delay(1500);
+  Clamp.move_relative(600,50);
+  pros::delay(1000);
+  Clamp.move_relative(-600,50);
+  pros::delay(1000);
   //egg(omelet(benedict(poached(scambled(fried(sunnyside-up(wet(hard boiled))))))));
 }
 
@@ -495,7 +507,7 @@ void leftSideForklift(){
   Fourbar.move_relative(100,100);
   profileController->generatePath({
     {0_ft,0_ft,0_deg},
-    {110_in,0_ft,0_deg}},
+    {65_in,0_ft,0_deg}},
     "LeftSide_step_1"
   );
   profileController->setTarget("LeftSide_step_1");
@@ -505,9 +517,9 @@ void leftSideForklift(){
   Clamp.move_relative(1100, 100); //lower clamp
   pros::delay(300);
   Fourbar.move_relative(450,100);
-  Forklift.move_relative(1500,100);
+  Forklift.move_relative(2000,100);
   pros::delay(1300); //wait until clamp is done
-  driveAuton->turnAngle(-129_deg);
+  driveAuton->turnAngle(-320_deg);
   profileController->generatePath({
     {0_ft,0_ft,0_deg},
     {60_in,0_ft,0_deg}},
@@ -554,17 +566,17 @@ void Red1(){
 //egg
 void leftSideNeumogo(){
 //  profileController->setTarget("LeftSide_step_1");
-  opDriver(200,200);
-  pros::delay(1500);
+  opDriver(200, 200);
+  pros::delay(1100);
   FLmotor.move_velocity(0);
 	FRmotor.move_velocity(0);
 	BLmotor.move_velocity(0);
 	BRmotor.move_velocity(0);
-  Clamp.move_relative(degForGoalClamp, 100); //lower clamp
-  pros::delay(700);
+  Clamp.move_relative(degForGoalClamp, 100);
+  pros::delay(200);
   Fourbar.move_relative(450,100);
   opDriver(-200,-200);
-  pros::delay(1500);
+  pros::delay(1100);
   FLmotor.move_velocity(0);
 	FRmotor.move_velocity(0);
 	BLmotor.move_velocity(0);
@@ -579,8 +591,8 @@ void rightSideNeumogo(){
 	FRmotor.move_velocity(0);
 	BLmotor.move_velocity(0);
 	BRmotor.move_velocity(0);
-  Clamp.move_relative(degForGoalClamp, 100); //lower clamp
-  pros::delay(500);
+  Clamp.move_relative(degForGoalClamp, 100);
+  pros::delay(200);
   Fourbar.move_relative(450,100);
   opDriver(-200,-200);
   pros::delay(1600);
