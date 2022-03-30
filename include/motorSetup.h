@@ -18,18 +18,6 @@ const double rotationSpeed = 200;*/
 
 
 pros::Controller master (pros::E_CONTROLLER_MASTER);
- /*
-ControllerButton RUp(ControllerDigital::R1);
-ControllerButton RDown(ControllerDigital::R2);
-ControllerButton A(ControllerDigital::A);
-ControllerButton B(ControllerDigital::B);
-ControllerButton X(ControllerDigital::X);
-ControllerButton Y(ControllerDigital::Y);
-ControllerButton left(ControllerDigital::left);
-ControllerButton right(ControllerDigital::right);
-ControllerButton up(ControllerDigital::up);
-ControllerButton down(ControllerDigital::down);
-*/
 
 //pros::Controller control (E_CONTROLLER_MASTER);
 //pros::Motor Clamp(GOALCLAMP, pros::E_MOTOR_GEARSET_18);

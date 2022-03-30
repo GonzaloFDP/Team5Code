@@ -3,20 +3,16 @@
 
 
 void initialize() {
-//	ForkliftLeft.move_relative(degForForkLift,100);
-	//ForkliftRight.move_relative(degForForkLift,100);
 	pros::lcd::initialize();
-	screenPrintString(2, 2, "y");
-	Clamp.tare_position();
-
-	//pros::lcd::register_btn0_cb(leftBtn);
-	//pros::lcd::register_btn1_cb(centerBtn);
-	//pros::lcd::register_btn2_cb(rightBtn);
+	screenPrintString(2, 2, "m");
+	FLmotor.set_brake_mode(MOTOR_BRAKE_COAST);
+	FRmotor.set_brake_mode(MOTOR_BRAKE_COAST);
+	BLmotor.set_brake_mode(MOTOR_BRAKE_COAST);
+	BRmotor.set_brake_mode(MOTOR_BRAKE_COAST);
+	Clamp.set_brake_mode(MOTOR_BRAKE_HOLD);
 	Fourbar.set_brake_mode(MOTOR_BRAKE_HOLD);
 	Forklift.set_brake_mode(MOTOR_BRAKE_HOLD);
   autonSelector();
-
-	//autonSelector();
 }
 
 void disabled() {}
@@ -29,13 +25,13 @@ void autonomous() {
 		 	rightSideWPNoRingtake();
 			break;
      case 1:
-		 	soloWP();
+		 	test2();
 			break;
      case 2:
 		  leftSideWPNoRingtake();
 			break;
      case 3:
-		  rightSideNeumogoWPRingtake();
+		  tallNeumogo();
 			break;
      case 4:
 		 	leftSideForklift();
@@ -47,10 +43,10 @@ void autonomous() {
 		 	leftSideNeumogo();
 			break;
      case 7:
-		  officialSkills();
+		  neumogoAndAWP();
 			break;
 		 case 8:
-		 	disabled();
+		 	tallNeumogo();
 			break;
    }
 
@@ -82,39 +78,29 @@ void my_task_fn(void* param) {
 
 void opcontrol() {
 	master.clear();
-	//autonomous();
 
 	double plt4mMode = 1;
 	master.clear();
 	Clamp.set_brake_mode(MOTOR_BRAKE_HOLD);
+	Forklift.set_brake_mode(MOTOR_BRAKE_HOLD);
 
-//	bool ringMove;
-//	bool convMove;
 
   while (true){
 		screenPrintInt(0,1,plt4mMode);
-		pros::Task my_task(my_task_fn);
 
-//	pros::Task my_task(rings, (void*)ringMove, "ring");
-//	pros::Task the_task(conveyor, (void*)convMove, "conveyor");
-
-		//Conveyor Task
-
-		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
-				conveyorController->setTarget(-167);
-		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
-				conveyorController->setTarget(167);
-		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)){
-			conveyorController->setTarget(0);
-			Conveyor.set_brake_mode(MOTOR_BRAKE_HOLD);
-			Conveyor.move_velocity(0);
-		}
-
-		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){ //remember to check ports; see if connected
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
 			if(plt4mMode == 1){
-				plt4mMode = 0.6;
-			} else if (plt4mMode == 0.6){
+				plt4mMode = 0.4;
+				FLmotor.set_brake_mode(MOTOR_BRAKE_HOLD);
+				FRmotor.set_brake_mode(MOTOR_BRAKE_HOLD);
+				BLmotor.set_brake_mode(MOTOR_BRAKE_HOLD);
+				BRmotor.set_brake_mode(MOTOR_BRAKE_HOLD);
+			} else if (plt4mMode == 0.4){
 				plt4mMode = 1;
+				FLmotor.set_brake_mode(MOTOR_BRAKE_COAST);
+				FRmotor.set_brake_mode(MOTOR_BRAKE_COAST);
+				BLmotor.set_brake_mode(MOTOR_BRAKE_COAST);
+				BRmotor.set_brake_mode(MOTOR_BRAKE_COAST);
 		}
 	}
 // fork lift
@@ -123,11 +109,10 @@ void opcontrol() {
 		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
 			forkLiftMovement(true);
 		} else {
-			Forklift.set_brake_mode(MOTOR_BRAKE_HOLD);
 			Forklift.move_voltage(0);
 		}
 
-	if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){ //remember to check ports; see if connected
+	if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
 		fourBarMovement(true); //down
 	} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
 		fourBarMovement(false); //up

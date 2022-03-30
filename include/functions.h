@@ -10,9 +10,9 @@ std::shared_ptr<AsyncVelocityController<double,double>> ringtakeController =
   AsyncVelControllerBuilder().withMotor(RINGTAKE).build(); //? idk why this doesn't work
 
 //Useful Constants
-const double wheelCircumfrence = 3.25 * M_PI;
+const double wheelCircumfrence = 3.25 * M_PI * 1.5;
 
-const int degForGoalClamp = 300;
+const int degForGoalClamp = 470;
 
 const int degForForkLift = 2000;
 
@@ -23,8 +23,8 @@ int fourbarHeight [3] = {0,1000,4000};
 std::string egg = "egg";
 
 int countr = 0;
-std::string autons[8] = {"rightSideWPNoRingtake", "soloWP", "leftSideWPNoRingtake", "rightSideNeumogoWPRingtake", "leftSideForklift", "test", "leftSideNeumogo","officialSkills"};
-int size = 8;//*(&autons + 1) - autons;
+std::string autons[9] = {"rightSideWPNoRingtake", "test2", "leftSideWPNoRingtake", "tallNeumogo", "leftSideForklift", "test", "leftSideNeumogo","neumogoWP","e"};
+int size = 9;
 
 void screenPrintString(int e, int o, std::string i){
   master.print(e,o,"%s",i.c_str());
@@ -55,21 +55,13 @@ void autonSelector(){
     screenPrintString(2, 1, autons[countr].c_str());
     pros::delay(100);
      if(master.get_digital(DIGITAL_RIGHT)){
-
        countr = (countr + 1 + size) % size;
-
      } else if(master.get_digital(DIGITAL_LEFT)){
-
        countr = (countr - 1 + size) % size;
-
      } else if(master.get_digital(DIGITAL_A)){
-
-       pros::delay(200);
-
+       pros::delay(100);
        if(master.get_digital(DIGITAL_A)){
-
          break;
-
        }
      }
    }
