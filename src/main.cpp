@@ -4,7 +4,7 @@
 
 void initialize() {
 	pros::lcd::initialize();
-	screenPrintString(2, 2, "m");
+	screenPrintString(2, 2, "q");
 	FLmotor.set_brake_mode(MOTOR_BRAKE_COAST);
 	FRmotor.set_brake_mode(MOTOR_BRAKE_COAST);
 	BLmotor.set_brake_mode(MOTOR_BRAKE_COAST);

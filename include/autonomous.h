@@ -182,12 +182,12 @@ void test2(){
 
     profileController->setTarget("Q1_step_1", true);
     pros::delay(200);
-    Fourbar.move_relative(1050,75);
+    //Fourbar.move_relative(1050,75);
     pros::delay(500);
-    Fourbar.move_relative(-1050,75);
+    //Fourbar.move_relative(-1050,75);
     pros::delay(600);
     Forklift.move_relative(1500, -100);
-    pros::delay(700);
+    pros::delay(800);
     profileController->setTarget("Q1_step_2"); //move towads neumogo
     pros::delay(2000);
     Forklift.move_relative(-1000, 100);
@@ -596,16 +596,16 @@ void Red1(){
 void leftSideNeumogo(){
   Clamp.move_relative(-degForGoalClamp, 100);
   opDriver(200, 200);
-  Fourbar.move_relative(1330,75);
+//  Fourbar.move_relative(1330,75);
   pros::delay(500);
-  Fourbar.move_relative(-1330,75);
-  pros::delay(500);
+//  Fourbar.move_relative(-1500,75);
+  pros::delay(600);
   FLmotor.move_velocity(0);
 	FRmotor.move_velocity(0);
 	BLmotor.move_velocity(0);
 	BRmotor.move_velocity(0);
   Clamp.move_relative(degForGoalClamp, 100);
-  pros::delay(350);
+  pros::delay(200);
   Fourbar.move_relative(450,100);
   opDriver(-200,-200);
   pros::delay(1100);
@@ -616,12 +616,12 @@ void leftSideNeumogo(){
 }
 
 void neumogoAndAWP(){
-  Fourbar.move_relative(1330,100);
+//  Fourbar.move_relative(1330,100);
   Clamp.move_relative(-degForGoalClamp, 100);
   opDriver(175,175);
   pros::delay(500);
-  Fourbar.move_relative(-1330,100);
-  pros::delay(400);
+  //Fourbar.move_relative(-1430,100);
+  pros::delay(580);
   FLmotor.move_velocity(0);
 	FRmotor.move_velocity(0);
 	BLmotor.move_velocity(0);
@@ -629,10 +629,11 @@ void neumogoAndAWP(){
   Clamp.move_relative(degForGoalClamp, 100);
   pros::delay(200);
   Fourbar.move_relative(450,100);
-  driveAuton->turnAngle(-30_deg);
+  driveAuton->turnAngle(-40_deg);
   opDriver(-200,-200);
-  pros::delay(1300);
-  Forklift.move_relative(1000,100);
+  pros::delay(700);
+  Forklift.move_relative(1300,100);
+  pros::delay(500);
   FLmotor.move_velocity(0);
 	FRmotor.move_velocity(0);
 	BLmotor.move_velocity(0);
@@ -643,16 +644,16 @@ void tallNeumogo(){
   Clamp.move_relative(-degForGoalClamp, 100);
   opDriver(200, 200);
   pros::delay(340);
-  Fourbar.move_relative(1330,75);
+  //Fourbar.move_relative(1330,75);
   pros::delay(500);
-  Fourbar.move_relative(-1330,75);
-  pros::delay(650);
+//  Fourbar.move_relative(-1430,75);
+  pros::delay(480);
   FLmotor.move_velocity(0);
 	FRmotor.move_velocity(0);
 	BLmotor.move_velocity(0);
 	BRmotor.move_velocity(0);
   Clamp.move_relative(degForGoalClamp, 100);
-  pros::delay(250);
+  pros::delay(200);
   Fourbar.move_relative(450,100);
   opDriver(-200,-200);
   pros::delay(1000);
