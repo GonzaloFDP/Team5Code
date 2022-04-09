@@ -4,14 +4,17 @@
 
 void initialize() {
 	pros::lcd::initialize();
-	screenPrintString(2, 2, "q");
+	//inertial.reset();
+	screenPrintString(2, 2, "e");
 	FLmotor.set_brake_mode(MOTOR_BRAKE_COAST);
 	FRmotor.set_brake_mode(MOTOR_BRAKE_COAST);
 	BLmotor.set_brake_mode(MOTOR_BRAKE_COAST);
 	BRmotor.set_brake_mode(MOTOR_BRAKE_COAST);
-	Clamp.set_brake_mode(MOTOR_BRAKE_HOLD);
+	MLmotor.set_brake_mode(MOTOR_BRAKE_COAST);
+	MRmotor.set_brake_mode(MOTOR_BRAKE_COAST);
 	Fourbar.set_brake_mode(MOTOR_BRAKE_HOLD);
 	Forklift.set_brake_mode(MOTOR_BRAKE_HOLD);
+
   autonSelector();
 }
 
@@ -25,7 +28,7 @@ void autonomous() {
 		 	rightSideWPNoRingtake();
 			break;
      case 1:
-		 	test2();
+		 	//test2();
 			break;
      case 2:
 		  leftSideWPNoRingtake();
@@ -34,7 +37,7 @@ void autonomous() {
 		  tallNeumogo();
 			break;
      case 4:
-		 	leftSideForklift();
+		 	//leftSideForklift();
 			break;
      case 5:
 		 	test();
@@ -81,12 +84,12 @@ void opcontrol() {
 
 	double plt4mMode = 1;
 	master.clear();
-	Clamp.set_brake_mode(MOTOR_BRAKE_HOLD);
 	Forklift.set_brake_mode(MOTOR_BRAKE_HOLD);
 
 
   while (true){
-		screenPrintInt(0,1,plt4mMode);
+		//screenPrintInt(0,1,plt4mMode);
+		screenPrintInt(0,1,inertial.get_heading());
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
 			if(plt4mMode == 1){
@@ -95,12 +98,16 @@ void opcontrol() {
 				FRmotor.set_brake_mode(MOTOR_BRAKE_HOLD);
 				BLmotor.set_brake_mode(MOTOR_BRAKE_HOLD);
 				BRmotor.set_brake_mode(MOTOR_BRAKE_HOLD);
+				MLmotor.set_brake_mode(MOTOR_BRAKE_HOLD);
+				MRmotor.set_brake_mode(MOTOR_BRAKE_HOLD);
 			} else if (plt4mMode == 0.4){
 				plt4mMode = 1;
 				FLmotor.set_brake_mode(MOTOR_BRAKE_COAST);
 				FRmotor.set_brake_mode(MOTOR_BRAKE_COAST);
 				BLmotor.set_brake_mode(MOTOR_BRAKE_COAST);
 				BRmotor.set_brake_mode(MOTOR_BRAKE_COAST);
+				MLmotor.set_brake_mode(MOTOR_BRAKE_COAST);
+				MRmotor.set_brake_mode(MOTOR_BRAKE_COAST);
 		}
 	}
 // fork lift
@@ -128,12 +135,13 @@ void opcontrol() {
 
 		//Clamp
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_X)){
-			goalClampMovement(false);
+			//goalClampMovement(false);
+			clampPiston.set_value(true);
 		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_B)){
-			goalClampMovement(true);
+			//goalClampMovement(true);
+			clampPiston.set_value(false);
 		} else {
-			Clamp.set_brake_mode(MOTOR_BRAKE_HOLD);
-			Clamp.move_velocity(0);
+
 		}
 
 

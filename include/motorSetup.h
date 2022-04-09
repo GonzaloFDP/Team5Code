@@ -6,18 +6,26 @@
 #define BR_MOTOR 1
 #define BL_MOTOR 11
 #define RINGTAKE 15
-#define GOALCLAMP 2
+#define IMUNUM 2
 #define CONVEYOR 14
 #define FOURBAR 3
 #define FORKLIFT 4
 
+#define MR_MOTOR 12
+#define ML_MOTOR 19
+
+pros::ADIDigitalOut clampPiston ('A');
+
 const double ticksPerDeg = 900/360;
+
 //200*4.125*pi/60 * sqrt(2), = 60
 /*const double robotSpeed = 43.196 * sqrt(2);
 const double rotationSpeed = 200;*/
 
 
 pros::Controller master (pros::E_CONTROLLER_MASTER);
+
+pros::Imu inertial(IMUNUM);
 
 //pros::Controller control (E_CONTROLLER_MASTER);
 //pros::Motor Clamp(GOALCLAMP, pros::E_MOTOR_GEARSET_18);
@@ -26,9 +34,10 @@ pros::Motor FLmotor(FL_MOTOR, false);
 pros::Motor FRmotor(FR_MOTOR, true);
 pros::Motor BLmotor(BL_MOTOR, false);
 pros::Motor BRmotor(BR_MOTOR, true);
+pros::Motor MLmotor(ML_MOTOR, false);
+pros::Motor MRmotor(MR_MOTOR, true);
 
 pros::Motor Ringtake(RINGTAKE);
-pros::Motor Clamp(GOALCLAMP, pros::E_MOTOR_GEARSET_36);
 pros::Motor Conveyor(CONVEYOR);
 
 pros::Motor Fourbar(FOURBAR, pros::E_MOTOR_GEARSET_36);

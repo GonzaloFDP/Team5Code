@@ -34,6 +34,10 @@ void screenPrintInt(int e, int o, double i){
   master.print(e, o, "%i", int(i));
 }
 
+void screenPrintDub(int e, int o, double i){
+  master.print(e, o, "%d", i);
+}
+
 double distanceToTicks(double distance){
   double ticks = distance;
   ticks /= (wheelCircumfrence*3);
@@ -41,10 +45,7 @@ double distanceToTicks(double distance){
   return ticks;
 }
 
-void autonClamp(int value){
-  Clamp.move_absolute(40, 100*value);
-  pros::delay(200);
-}
+
 
 void autonSelector(){
   master.clear();
@@ -85,18 +86,12 @@ void opDriver(double left, double right){
 	FRmotor.move_velocity(right);
 	BLmotor.move_velocity(left);
 	BRmotor.move_velocity(right);
+  MLmotor.move_velocity(left);
+	MRmotor.move_velocity(right);
 
 }
 
-void goalClampMovement(bool upOrDown){
-  if (upOrDown){
-    Clamp.move_velocity(100);//down
-  } else if (upOrDown == false){
-    Clamp.move_velocity(-100);//up
-  } else {
-    Clamp.move_velocity(0);
-  }
-}
+
 
 void ringtakeMovement(bool upOrDown){
   if (upOrDown){
@@ -161,22 +156,5 @@ void driverControl(double l, double r){
 }
 
 
-void stopDrive(bool hold = false){
-  //Shortcut to stop the drive quickly
-  if(hold){
-    FrontLeft.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-    FrontRight.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-    BackLeft.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-    BackRight.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-  }
-  FrontLeft.move_velocity(0);
-	FrontRight.move_velocity(0);
-	BackLeft.move_velocity(0);
-	BackRight.move_velocity(0);
-  delay(100);
-  FrontLeft.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-  FrontRight.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-  BackLeft.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-  BackRight.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-}
+
 */
