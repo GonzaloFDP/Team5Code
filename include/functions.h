@@ -158,3 +158,41 @@ void driverControl(double l, double r){
 
 
 */
+
+bool resetDriveSensors;
+
+void turnAngle(double angle){
+  inertial.tare();
+  int turnPrevError = 0;
+  int turnDerivative;
+  double turnKP = 0.003;
+  double turnKD = 0.001;
+  int initialT = pros::millis();
+  int tVal = angle;
+  int error = angle - inertial.get_rotation();
+  pros::lcd::print(2, std::to_string(inertial.get_rotation()).c_str());
+  while(error>5){
+    if(resetDriveSensors){
+      resetDriveSensors = false;
+      inertial.tare();
+    }
+
+    error = tVal - inertial.get_rotation();
+
+    turnDerivative = error - turnPrevError;
+
+    double turnMotorPower = (error * turnKP + turnDerivative * turnKD);
+
+    opDriver(turnMotorPower, -turnMotorPower);
+
+    turnPrevError = error;
+    pros::delay(20);
+  }
+}
+
+void checkTug(){
+  if(inertial.get_accel().x > -0.1){
+    Fourbar.move_relative(-450,100);
+    clampPiston.set_value(true);
+  }
+}

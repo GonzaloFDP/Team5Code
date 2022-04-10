@@ -5,7 +5,7 @@
 void initialize() {
 	pros::lcd::initialize();
 	//inertial.reset();
-	screenPrintString(2, 2, "e");
+	screenPrintString(2, 2, "g");
 	FLmotor.set_brake_mode(MOTOR_BRAKE_COAST);
 	FRmotor.set_brake_mode(MOTOR_BRAKE_COAST);
 	BLmotor.set_brake_mode(MOTOR_BRAKE_COAST);
@@ -81,15 +81,20 @@ void my_task_fn(void* param) {
 
 void opcontrol() {
 	master.clear();
+	FLmotor.set_brake_mode(MOTOR_BRAKE_COAST);
+	FRmotor.set_brake_mode(MOTOR_BRAKE_COAST);
+	BLmotor.set_brake_mode(MOTOR_BRAKE_COAST);
+	BRmotor.set_brake_mode(MOTOR_BRAKE_COAST);
+	MLmotor.set_brake_mode(MOTOR_BRAKE_COAST);
+	MRmotor.set_brake_mode(MOTOR_BRAKE_COAST);
 
 	double plt4mMode = 1;
 	master.clear();
 	Forklift.set_brake_mode(MOTOR_BRAKE_HOLD);
 
-
   while (true){
 		//screenPrintInt(0,1,plt4mMode);
-		screenPrintInt(0,1,inertial.get_heading());
+		screenPrintDub(0,1,inertial.get_accel().x);
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
 			if(plt4mMode == 1){

@@ -425,7 +425,9 @@ void neumogoAndAWP(){
   Fourbar.move_relative(450,100);
   driveAuton->turnAngle(-40_deg);
   opDriver(-200,-200);
-  pros::delay(700);
+  pros::delay(400);
+  checkTug();
+  pros::delay(300);
   Forklift.move_relative(1300,100);
   pros::delay(500);
   FLmotor.move_velocity(0);
@@ -454,7 +456,8 @@ void tallNeumogo(){
   pros::delay(200);
   Fourbar.move_relative(450,100);
   opDriver(-200,-200);
-  pros::delay(1000);
+  pros::delay(400);
+  pros::delay(600);
   FLmotor.move_velocity(0);
 	FRmotor.move_velocity(0);
 	BLmotor.move_velocity(0);
