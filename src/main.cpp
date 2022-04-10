@@ -5,7 +5,7 @@
 void initialize() {
 	pros::lcd::initialize();
 	//inertial.reset();
-	screenPrintString(2, 2, "g");
+	screenPrintString(2, 2, "c");
 	FLmotor.set_brake_mode(MOTOR_BRAKE_COAST);
 	FRmotor.set_brake_mode(MOTOR_BRAKE_COAST);
 	BLmotor.set_brake_mode(MOTOR_BRAKE_COAST);
