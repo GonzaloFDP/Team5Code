@@ -18,12 +18,14 @@ const int degForForkLift = 2000;
 
 const int degForForkLiftUp = 2000;
 
+bool pidWait = false;
+
 int fourbarHeight [3] = {0,1000,4000};
 
 std::string egg = "egg";
 
 int countr = 0;
-std::string autons[9] = {"rightSideWPNoRingtake", "test2", "leftSideWPNoRingtake", "tallNeumogo", "leftSideForklift", "test", "leftSideNeumogo","neumogoWP","e"};
+std::string autons[9] = {"rightSideWPNoRingtake", "rightSideTwoGoal", "leftSideWPNoRingtake", "tallNeumogo", "leftSideForklift", "test", "leftSideNeumogo","neumogoWP","e"};
 int size = 9;
 
 void screenPrintString(int e, int o, std::string i){
@@ -38,9 +40,9 @@ void screenPrintDub(int e, int o, double i){
   master.print(e, o, "%d", i);
 }
 
-double distanceToTicks(double distance){
-  double ticks = distance;
-  ticks /= (wheelCircumfrence*3);
+double distanceToTicks(double inches){
+  double ticks = inches;
+  ticks /= (wheelCircumfrence);
   ticks *= 900;
   return ticks;
 }
@@ -188,6 +190,50 @@ void turnAngle(double angle){
     turnPrevError = error;
     pros::delay(20);
   }
+}
+
+void moveDistance(double distance, double kP, double kD, double timeMill){
+  FLmotor.tare_position();
+  FRmotor.tare_position();
+  MLmotor.tare_position();
+  MRmotor.tare_position();
+  BLmotor.tare_position();
+  BRmotor.tare_position();
+
+  int prevError = 0;
+  int derivative;
+  double avgLeftSide = (FLmotor.get_position() + MLmotor.get_position() + BLmotor.get_position())/3;
+  double avgRightSide = (FRmotor.get_position() + MRmotor.get_position() + BRmotor.get_position())/3;
+  double totalAvgPos = (avgLeftSide+avgRightSide)/2;
+  int tVal = distanceToTicks(distance);
+  int error = tVal - totalAvgPos;
+  int counter = 0;
+  while(true){
+    if(counter*20 >= timeMill){
+      break;
+    }
+    avgLeftSide = (FLmotor.get_position() + MLmotor.get_position() + BLmotor.get_position())/3;
+    avgRightSide = (FRmotor.get_position() + MRmotor.get_position() + BRmotor.get_position())/3;
+    totalAvgPos = (avgLeftSide+avgRightSide)/2;
+    error = tVal - totalAvgPos;
+    derivative = error - prevError;
+    double motorPower = (error * kP + derivative * kD);
+    if(motorPower>200){
+      motorPower = 200;
+    } else if (motorPower<-200){
+      motorPower = -200;
+    } else {}
+    opDriver(motorPower,motorPower);
+    prevError = error;
+    counter++;
+    pros::delay(20);
+  }
+  FLmotor.move_velocity(0);
+	FRmotor.move_velocity(0);
+	BLmotor.move_velocity(0);
+	BRmotor.move_velocity(0);
+  MLmotor.move_velocity(0);
+  MRmotor.move_velocity(0);
 }
 
 void checkTug(){

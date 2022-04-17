@@ -5,7 +5,7 @@
 void initialize() {
 	pros::lcd::initialize();
 	//inertial.reset();
-	screenPrintString(2, 2, "c");
+	screenPrintString(2, 2, "h");
 	FLmotor.set_brake_mode(MOTOR_BRAKE_COAST);
 	FRmotor.set_brake_mode(MOTOR_BRAKE_COAST);
 	BLmotor.set_brake_mode(MOTOR_BRAKE_COAST);
@@ -28,7 +28,7 @@ void autonomous() {
 		 	rightSideWPNoRingtake();
 			break;
      case 1:
-		 	//test2();
+		 	rightSideTwoGoal();
 			break;
      case 2:
 		  leftSideWPNoRingtake();

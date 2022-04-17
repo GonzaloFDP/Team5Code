@@ -319,13 +319,14 @@ void soloWP(){
     {65_in,0_in,0_deg}},
     "soloWP_step_4"
   );
-  Fourbar.move_relative(1600, 100);
+  Fourbar.move_relative(800, 100);
   pros::delay(300);
   profileController->setTarget("soloWP_step_1");
   pros::delay(1200);
   clampPiston.set_value(true);
-  pros::delay(600);
+  pros::delay(200);
   profileController->setTarget("soloWP_step_1",true);
+  Fourbar.move_relative(900, 100);
   pros::delay(1200);
   driveAuton->turnAngle(101_deg);
   profileController->setTarget("soloWP_step_2",true);
@@ -454,10 +455,50 @@ void tallNeumogo(){
   clampPiston.set_value(true);
   opDriver(200, 200);
   pros::delay(340);
-  //Fourbar.move_relative(1330,75);
   pros::delay(500);
-//  Fourbar.move_relative(-1430,75);
   pros::delay(480);
+  FLmotor.move_velocity(0);
+	FRmotor.move_velocity(0);
+	BLmotor.move_velocity(0);
+	BRmotor.move_velocity(0);
+  MLmotor.move_velocity(0);
+  MRmotor.move_velocity(0);
+  clampPiston.set_value(false);
+  Fourbar.move_relative(450,100);
+  opDriver(-200,-200);
+  pros::delay(400);
+  pros::delay(600);
+  FLmotor.move_velocity(0);
+	FRmotor.move_velocity(0);
+	BLmotor.move_velocity(0);
+	BRmotor.move_velocity(0);
+  MLmotor.move_velocity(0);
+  MRmotor.move_velocity(0);
+}
+
+void rightSideTwoGoal(){
+  int error;
+  clampPiston.set_value(true);
+  opDriver(200, 200);
+  pros::delay(500);
+  pros::delay(600);
+  FLmotor.move_velocity(0);
+	FRmotor.move_velocity(0);
+	BLmotor.move_velocity(0);
+	BRmotor.move_velocity(0);
+  MLmotor.move_velocity(0);
+  MRmotor.move_velocity(0);
+  clampPiston.set_value(false);
+  Fourbar.move_relative(450,100);
+  moveDistance(-34,0.34,0.03,2000);
+  Fourbar.move_relative(-450,100);
+  pros::delay(500);
+  clampPiston.set_value(true);
+  pros::delay(50);
+  moveDistance(-17,0.3,0.0,2000);
+  driveAuton -> turnAngle(-40_deg);
+  opDriver(200, 200);
+  pros::delay(1320);
   FLmotor.move_velocity(0);
 	FRmotor.move_velocity(0);
 	BLmotor.move_velocity(0);
