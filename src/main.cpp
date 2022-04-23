@@ -5,7 +5,7 @@
 void initialize() {
 	pros::lcd::initialize();
 	//inertial.reset();
-	screenPrintString(2, 2, "h");
+	screenPrintString(2, 2, "p");
 	FLmotor.set_brake_mode(MOTOR_BRAKE_COAST);
 	FRmotor.set_brake_mode(MOTOR_BRAKE_COAST);
 	BLmotor.set_brake_mode(MOTOR_BRAKE_COAST);
@@ -37,7 +37,7 @@ void autonomous() {
 		  tallNeumogo();
 			break;
      case 4:
-		 	//leftSideForklift();
+		 soloWP();
 			break;
      case 5:
 		 	test();
@@ -93,8 +93,7 @@ void opcontrol() {
 	Forklift.set_brake_mode(MOTOR_BRAKE_HOLD);
 
   while (true){
-		//screenPrintInt(0,1,plt4mMode);
-		screenPrintDub(0,1,inertial.get_accel().x);
+		screenPrintInt(0,1,plt4mMode);
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
 			if(plt4mMode == 1){

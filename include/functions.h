@@ -25,7 +25,7 @@ int fourbarHeight [3] = {0,1000,4000};
 std::string egg = "egg";
 
 int countr = 0;
-std::string autons[9] = {"rightSideWPNoRingtake", "rightSideTwoGoal", "leftSideWPNoRingtake", "tallNeumogo", "leftSideForklift", "test", "leftSideNeumogo","neumogoWP","e"};
+std::string autons[9] = {"rightSideWPNoRingtake", "rightSideTwoGoal", "leftSideWPNoRingtake", "tallNeumogo", "soloWP", "test", "leftSideNeumogo","neumogoWP","e"};
 int size = 9;
 
 void screenPrintString(int e, int o, std::string i){

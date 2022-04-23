@@ -311,29 +311,29 @@ void soloWP(){
   );
   profileController -> generatePath({
     {0_in,0_in,0_deg},
-    {155_in,0_in,0_deg}},
+    {134_in,0_in,0_deg}},
     "soloWP_step_3"
   );
   profileController -> generatePath({
     {0_in,0_in,0_deg},
-    {65_in,0_in,0_deg}},
+    {35_in,0_in,0_deg}},
     "soloWP_step_4"
   );
-  Fourbar.move_relative(800, 100);
+  Fourbar.move_relative(900, 100);
   pros::delay(300);
   profileController->setTarget("soloWP_step_1");
   pros::delay(1200);
   clampPiston.set_value(true);
   pros::delay(200);
   profileController->setTarget("soloWP_step_1",true);
-  Fourbar.move_relative(900, 100);
   pros::delay(1200);
-  driveAuton->turnAngle(101_deg);
+  driveAuton->turnAngle(123_deg);
   profileController->setTarget("soloWP_step_2",true);
   pros::delay(2000);
-  driveAuton->turnAngle(97_deg);
+  driveAuton->turnAngle(78_deg);
   profileController->setTarget("soloWP_step_3", true);
-  pros::delay(4000);
+  Fourbar.move_relative(-900, 100);
+  pros::delay(3500);
   Forklift.move_relative(1500,100);
   pros::delay(300);
   profileController->setTarget("soloWP_step_4");
@@ -410,10 +410,7 @@ void leftSideNeumogo(){
 void neumogoAndAWP(){
 //  Fourbar.move_relative(1330,100);
   clampPiston.set_value(true);
-  opDriver(200,200);
-  pros::delay(500);
-  //Fourbar.move_relative(-1430,100);
-  pros::delay(600);
+  moveDistance(50,0.4,0.0,1100);
   FLmotor.move_velocity(0);
 	FRmotor.move_velocity(0);
 	BLmotor.move_velocity(0);
@@ -422,27 +419,24 @@ void neumogoAndAWP(){
   MRmotor.move_velocity(0);
   clampPiston.set_value(false);
   Fourbar.move_relative(450,100);
-  opDriver(-200,-200);
-  pros::delay(850);
+  moveDistance(-30,0.3,0.0,1100);
   FLmotor.move_velocity(0);
 	FRmotor.move_velocity(0);
 	BLmotor.move_velocity(0);
 	BRmotor.move_velocity(0);
   MLmotor.move_velocity(0);
   MRmotor.move_velocity(0);
-  driveAuton->turnAngle(-115_deg);
-  opDriver(-200,-200);
-  pros::delay(480);
+  driveAuton->turnAngle(-97_deg);
+  Forklift.move_relative(1600,100);
+  moveDistance(-11,0.24,0.0,1100);
   FLmotor.move_velocity(0);
 	FRmotor.move_velocity(0);
 	BLmotor.move_velocity(0);
 	BRmotor.move_velocity(0);
   MLmotor.move_velocity(0);
   MRmotor.move_velocity(0);
-  Forklift.move_relative(1300,100);
   pros::delay(800);
-  opDriver(200,200);
-  pros::delay(600);
+  moveDistance(28,0.3,0.0,2000);
   FLmotor.move_velocity(0);
 	FRmotor.move_velocity(0);
 	BLmotor.move_velocity(0);
@@ -479,9 +473,7 @@ void tallNeumogo(){
 void rightSideTwoGoal(){
   int error;
   clampPiston.set_value(true);
-  opDriver(200, 200);
-  pros::delay(500);
-  pros::delay(600);
+  moveDistance(50,0.4,0.0,1100);
   FLmotor.move_velocity(0);
 	FRmotor.move_velocity(0);
 	BLmotor.move_velocity(0);
@@ -490,13 +482,13 @@ void rightSideTwoGoal(){
   MRmotor.move_velocity(0);
   clampPiston.set_value(false);
   Fourbar.move_relative(450,100);
-  moveDistance(-34,0.34,0.03,2000);
+  moveDistance(-30,0.34,0.03,1300);
   Fourbar.move_relative(-450,100);
   pros::delay(500);
   clampPiston.set_value(true);
   pros::delay(50);
-  moveDistance(-17,0.3,0.0,2000);
-  driveAuton -> turnAngle(-40_deg);
+  moveDistance(-14,0.3,0.0,800);
+  driveAuton -> turnAngle(-35_deg);
   opDriver(200, 200);
   pros::delay(1320);
   FLmotor.move_velocity(0);
