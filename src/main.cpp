@@ -5,7 +5,7 @@
 void initialize() {
 	pros::lcd::initialize();
 	//inertial.reset();
-	screenPrintString(2, 2, "q");
+	screenPrintString(2, 2, "z");
 	FLmotor.set_brake_mode(MOTOR_BRAKE_COAST);
 	FRmotor.set_brake_mode(MOTOR_BRAKE_COAST);
 	BLmotor.set_brake_mode(MOTOR_BRAKE_COAST);
@@ -40,7 +40,7 @@ void autonomous() {
 		 soloWP();
 			break;
      case 5:
-		 	test();
+		 	canada();
 			break;
      case 6:
 		 	leftSideNeumogo();

@@ -399,6 +399,8 @@ void leftSideNeumogo(){
   Fourbar.move_relative(450,100);
   opDriver(-200,-200);
   pros::delay(900);
+  opDriver(-50,-50);
+  pros::delay(7000);
   FLmotor.move_velocity(0);
 	FRmotor.move_velocity(0);
 	BLmotor.move_velocity(0);
@@ -426,7 +428,7 @@ void neumogoAndAWP(){
 	BRmotor.move_velocity(0);
   MLmotor.move_velocity(0);
   MRmotor.move_velocity(0);
-  driveAuton->turnAngle(-97_deg);
+  driveAuton->turnAngle(-93_deg);
   moveDistance(-13,0.14,0.0,1100);
   FLmotor.move_velocity(0);
 	FRmotor.move_velocity(0);
@@ -481,6 +483,7 @@ void rightSideTwoGoal(){
   MLmotor.move_velocity(0);
   MRmotor.move_velocity(0);
   clampPiston.set_value(false);
+  pros::delay(50);
   Fourbar.move_relative(450,100);
   moveDistance(-30,0.34,0.03,1300);
   Fourbar.move_relative(-450,100);
@@ -490,7 +493,7 @@ void rightSideTwoGoal(){
   moveDistance(-14,0.3,0.0,800);
   driveAuton -> turnAngle(-35_deg);
   opDriver(200, 200);
-  pros::delay(1320);
+  pros::delay(1200);
   FLmotor.move_velocity(0);
 	FRmotor.move_velocity(0);
 	BLmotor.move_velocity(0);
@@ -498,14 +501,31 @@ void rightSideTwoGoal(){
   MLmotor.move_velocity(0);
   MRmotor.move_velocity(0);
   clampPiston.set_value(false);
+  pros::delay(50);
   Fourbar.move_relative(450,100);
   opDriver(-200,-200);
-  pros::delay(400);
-  pros::delay(600);
+  pros::delay(1300);
   FLmotor.move_velocity(0);
 	FRmotor.move_velocity(0);
 	BLmotor.move_velocity(0);
 	BRmotor.move_velocity(0);
   MLmotor.move_velocity(0);
   MRmotor.move_velocity(0);
+  driveAuton -> turnAngle(150_deg);
+  opDriver(100,100);
+  pros::delay(1000);
+  Fourbar.move_relative(-450,100);
+  pros::delay(400);
+  clampPiston.set_value(true);
+  pros::delay(50);
+  opDriver(-120,-120);
+  pros::delay(700);
+  driveAuton -> turnAngle(-95_deg);
+}
+
+void canada(){
+  Forklift.move_relative(1700,100);
+  pros::delay(1000);
+  Forklift.move_relative(-1700,100);
+  pros::delay(1000);
 }
